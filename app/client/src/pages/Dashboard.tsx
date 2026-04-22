@@ -1,5 +1,6 @@
 import { Button } from "@/components/catalyst/button";
-import { AlertCircle, CheckCircle2, Clock, DollarSign, Package } from "lucide-react";
+import { Page, Card, AlertBanner } from "@/components/ds";
+import { CheckCircle2, Clock, DollarSign, Package } from "lucide-react";
 import { useState } from "react";
 
 const mockUrgentQueue = [
@@ -61,44 +62,42 @@ export default function Dashboard() {
   const visibleQueue = mockUrgentQueue.filter((item) => !completedActions.includes(item.id));
 
   return (
-    <div>
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold mb-4">Painel</h1>
+    <Page>
+      <Page.Header title="Painel" />
 
-        <div className="flex flex-wrap items-center gap-6 mb-4">
-          <div className="flex items-center gap-2">
-            <Clock size={16} className="text-zinc-400" />
-            <span className="text-sm text-zinc-500 dark:text-zinc-400">
-              <span className="font-medium text-zinc-950 dark:text-zinc-200">{daysUntilMove}</span> dias até a mudança
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Package size={16} className="text-zinc-400" />
-            <span className="text-sm text-zinc-500 dark:text-zinc-400">
-              <span className="font-medium text-zinc-950 dark:text-zinc-200">{itemsSold}</span>/{totalItems} itens vendidos
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <DollarSign size={16} className="text-zinc-400" />
-            <span className="text-sm text-zinc-500 dark:text-zinc-400">
-              <span className="font-medium text-zinc-950 dark:text-zinc-200">R$ {totalReceived.toLocaleString("pt-BR")}</span> recebido
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <AlertCircle size={16} className="text-zinc-400" />
-            <span className="text-sm text-zinc-500 dark:text-zinc-400">
-              <span className="font-medium text-zinc-950 dark:text-zinc-200">R$ {totalAgreed.toLocaleString("pt-BR")}</span> acordado
-            </span>
-          </div>
+      {/* Stats bar */}
+      <div className="flex flex-wrap items-center gap-6 mb-4">
+        <div className="flex items-center gap-2">
+          <Clock size={16} className="text-muted-foreground" />
+          <span className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">{daysUntilMove}</span> dias até a mudança
+          </span>
         </div>
+        <div className="flex items-center gap-2">
+          <Package size={16} className="text-muted-foreground" />
+          <span className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">{itemsSold}</span>/{totalItems} itens vendidos
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <DollarSign size={16} className="text-muted-foreground" />
+          <span className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">R$ {totalReceived.toLocaleString("pt-BR")}</span> recebido
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <DollarSign size={16} className="text-muted-foreground" />
+          <span className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">R$ {totalAgreed.toLocaleString("pt-BR")}</span> acordado
+          </span>
+        </div>
+      </div>
 
-        <div className="w-full h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-zinc-900 dark:bg-zinc-500 rounded-full transition-all duration-300"
-            style={{ width: `${(itemsSold / totalItems) * 100}%` }}
-          />
-        </div>
+      <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden mb-8">
+        <div
+          className="h-full bg-foreground/30 rounded-full transition-all duration-300"
+          style={{ width: `${(itemsSold / totalItems) * 100}%` }}
+        />
       </div>
 
       <div className="space-y-8">
@@ -107,22 +106,21 @@ export default function Dashboard() {
           <h2 className="text-sm font-semibold mb-4">Pra fazer agora</h2>
 
           {visibleQueue.length === 0 ? (
-            <div className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-8 text-center bg-white dark:bg-zinc-900">
-              <CheckCircle2 size={32} className="mx-auto mb-3 text-green-700 dark:text-green-700/60" />
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">Nada urgente agora</p>
-            </div>
+            <Card>
+              <div className="py-4 text-center">
+                <CheckCircle2 size={32} className="mx-auto mb-3 text-status-success" />
+                <p className="text-sm text-muted-foreground">Nada urgente agora</p>
+              </div>
+            </Card>
           ) : (
             <div className="space-y-2">
               {visibleQueue.map((item) => (
-                <div
-                  key={item.id}
-                  className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-4 flex items-center justify-between bg-white dark:bg-zinc-900"
-                >
-                  <p className="text-sm text-zinc-950 dark:text-zinc-200 flex-1">{item.description}</p>
+                <Card key={item.id} className="py-4 px-4 flex items-center justify-between">
+                  <p className="text-sm text-foreground flex-1">{item.description}</p>
                   <Button onClick={() => handleActionComplete(item.id)} outline>
                     {item.action}
                   </Button>
-                </div>
+                </Card>
               ))}
             </div>
           )}
@@ -133,30 +131,29 @@ export default function Dashboard() {
           <h2 className="text-sm font-semibold mb-4">Hoje</h2>
 
           {mockTodayPickups.length === 0 ? (
-            <div className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-8 text-center bg-white dark:bg-zinc-900">
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">Nenhuma retirada agendada para hoje</p>
-            </div>
+            <Card>
+              <p className="text-sm text-muted-foreground text-center py-4">
+                Nenhuma retirada agendada para hoje
+              </p>
+            </Card>
           ) : (
             <div className="space-y-3">
               {mockTodayPickups.map((pickup) => (
-                <div
-                  key={pickup.id}
-                  className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-5 bg-white dark:bg-zinc-900 shadow-xs"
-                >
+                <Card key={pickup.id}>
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <p className="text-sm font-medium text-zinc-950 dark:text-zinc-200">{pickup.buyer}</p>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{pickup.time}</p>
+                      <p className="text-sm font-medium text-foreground">{pickup.buyer}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{pickup.time}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-medium text-zinc-950 dark:text-zinc-200 font-mono">
+                      <p className="text-sm font-medium text-foreground font-mono">
                         R$ {pickup.total.toLocaleString("pt-BR")}
                       </p>
                       <span
                         className={`inline-block text-xs px-2 py-0.5 rounded mt-1 ${
                           pickup.status === "confirmed"
-                            ? "bg-green-50 text-green-700 dark:bg-green-950/20 dark:text-green-600"
-                            : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+                            ? "bg-status-success-subtle text-status-success"
+                            : "bg-muted text-muted-foreground"
                         }`}
                       >
                         {pickup.status === "confirmed" ? "Confirmado" : "Pendente"}
@@ -165,8 +162,8 @@ export default function Dashboard() {
                   </div>
 
                   <div className="mb-4">
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Itens:</p>
-                    <ul className="text-sm text-zinc-950 dark:text-zinc-200 space-y-0.5">
+                    <p className="text-xs text-muted-foreground mb-1">Itens:</p>
+                    <ul className="text-sm text-foreground space-y-0.5">
                       {pickup.items.map((item, idx) => (
                         <li key={idx}>• {item}</li>
                       ))}
@@ -177,12 +174,12 @@ export default function Dashboard() {
                     <Button className="flex-1">Marcar retirado</Button>
                     <Button outline className="flex-1">Reagendar</Button>
                   </div>
-                </div>
+                </Card>
               ))}
             </div>
           )}
         </section>
       </div>
-    </div>
+    </Page>
   );
 }

@@ -1,14 +1,11 @@
 import { Button } from "@/components/catalyst/button";
 import { Input, InputGroup } from "@/components/catalyst/input";
 import { Avatar } from "@/components/catalyst/avatar";
+import { Page } from "@/components/ds";
+import { StatusBadge } from "@/components/ds";
+import { AlertBanner } from "@/components/ds";
 import { useState } from "react";
-import {
-  Search,
-  MessageCircle,
-  AlertCircle,
-  Clock,
-  CheckCircle2,
-} from "lucide-react";
+import { Search } from "lucide-react";
 
 interface Message {
   id: number;
@@ -81,29 +78,6 @@ const mockConversations: Conversation[] = [
   },
 ];
 
-const statusConfig = {
-  unanswered: {
-    label: "Sem resposta",
-    icon: <AlertCircle size={16} />,
-    color: "text-red-600 dark:text-red-500/70",
-  },
-  active: {
-    label: "Ativo",
-    icon: <MessageCircle size={16} />,
-    color: "text-green-700 dark:text-green-600",
-  },
-  pickup_pending: {
-    label: "Retirada pendente",
-    icon: <Clock size={16} />,
-    color: "text-zinc-500 dark:text-zinc-400",
-  },
-  archived: {
-    label: "Arquivado",
-    icon: <CheckCircle2 size={16} />,
-    color: "text-zinc-500 dark:text-zinc-400",
-  },
-};
-
 export default function Messages() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(
@@ -118,123 +92,115 @@ export default function Messages() {
   );
 
   return (
-    <div className="flex -m-6 lg:-m-10 h-[calc(100vh-8rem)]">
-      {/* Conversation List */}
-      <div className="w-80 border-r border-zinc-950/5 dark:border-white/5 flex flex-col flex-shrink-0">
-        <div className="border-b border-zinc-950/5 dark:border-white/5 px-4 py-4">
-          <h1 className="text-sm font-semibold text-zinc-950 dark:text-zinc-200 mb-3">Mensagens</h1>
-          <InputGroup>
-            <Search data-slot="icon" />
-            <Input
-              type="search"
-              placeholder="Buscar conversa..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </InputGroup>
-        </div>
-
-        <div className="flex-1 overflow-auto">
-          {filtered.map((conv) => {
-            const config = statusConfig[conv.status];
-            const isSelected = selectedConversation?.id === conv.id;
-
-            return (
-              <button
-                key={conv.id}
-                onClick={() => setSelectedConversation(conv)}
-                className={`w-full text-left border-b border-zinc-950/5 dark:border-white/5 px-4 py-3 transition-colors ${
-                  isSelected ? "bg-zinc-50 dark:bg-zinc-800/50" : "hover:bg-zinc-50 dark:hover:bg-zinc-800/30"
-                }`}
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <Avatar initials={conv.buyerInitials} className={`size-8 ${conv.buyerColor} text-white`} />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-zinc-950 dark:text-zinc-200 truncate">{conv.buyerName}</p>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">{conv.itemTitle}</p>
-                  </div>
-                  <div className={`flex-shrink-0 ${config.color}`}>{config.icon}</div>
-                </div>
-
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate mb-1">{conv.lastMessage}</p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">{conv.lastMessageTime}</p>
-
-                {conv.inconsistencyNote && (
-                  <div className="mt-2 flex items-start gap-1.5 p-1.5 bg-red-50 dark:bg-red-950/10 border border-red-200 dark:border-red-900/40 rounded-lg">
-                    <AlertCircle size={12} className="text-red-600 dark:text-red-500/70 flex-shrink-0 mt-0.5" />
-                    <p className="text-xs text-red-600 dark:text-red-500/70">{conv.inconsistencyNote}</p>
-                  </div>
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Conversation View */}
-      {selectedConversation ? (
-        <div className="flex-1 flex flex-col min-w-0">
-          <div className="border-b border-zinc-950/5 dark:border-white/5 px-6 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Avatar
-                initials={selectedConversation.buyerInitials}
-                className={`size-10 ${selectedConversation.buyerColor} text-white`}
+    <Page variant="full-bleed">
+      <div className="flex h-[calc(100vh-8rem)]">
+        {/* Conversation List */}
+        <div className="w-80 border-r border-border flex flex-col flex-shrink-0">
+          <div className="border-b border-border px-4 py-4">
+            <h1 className="text-sm font-semibold text-foreground mb-3">Mensagens</h1>
+            <InputGroup>
+              <Search data-slot="icon" />
+              <Input
+                type="search"
+                placeholder="Buscar conversa..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <div>
-                <p className="text-sm font-medium text-zinc-950 dark:text-zinc-200">{selectedConversation.buyerName}</p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">{selectedConversation.itemTitle}</p>
-              </div>
-            </div>
-
-            <div className={`flex items-center gap-1.5 text-xs ${statusConfig[selectedConversation.status].color}`}>
-              {statusConfig[selectedConversation.status].icon}
-              <span>{statusConfig[selectedConversation.status].label}</span>
-            </div>
+            </InputGroup>
           </div>
 
-          <div className="flex-1 overflow-auto px-6 py-4 space-y-3">
-            {selectedConversation.messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`max-w-xs px-3 py-2 rounded-lg text-sm ${
-                    msg.sender === "me"
-                      ? "bg-zinc-900 text-white dark:bg-zinc-700 dark:text-zinc-100"
-                      : "bg-zinc-100 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-200 border border-zinc-950/5 dark:border-white/5"
+          <div className="flex-1 overflow-auto">
+            {filtered.map((conv) => {
+              const isSelected = selectedConversation?.id === conv.id;
+
+              return (
+                <button
+                  key={conv.id}
+                  onClick={() => setSelectedConversation(conv)}
+                  className={`w-full text-left border-b border-border px-4 py-3 transition-colors ${
+                    isSelected ? "bg-muted/50" : "hover:bg-muted/30"
                   }`}
                 >
-                  <p>{msg.text}</p>
-                  <p className={`text-xs mt-1 ${msg.sender === "me" ? "text-white/60 dark:text-zinc-300/50" : "text-zinc-500 dark:text-zinc-400"}`}>
-                    {msg.timestamp}
-                  </p>
+                  <div className="flex items-center gap-3 mb-2">
+                    <Avatar initials={conv.buyerInitials} className={`size-8 ${conv.buyerColor} text-white`} />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-medium text-foreground truncate">{conv.buyerName}</p>
+                      <p className="text-xs text-muted-foreground truncate">{conv.itemTitle}</p>
+                    </div>
+                    <div className="flex-shrink-0">
+                      <StatusBadge status={conv.status} size={14} />
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-muted-foreground truncate mb-1">{conv.lastMessage}</p>
+                  <p className="text-xs text-muted-foreground">{conv.lastMessageTime}</p>
+
+                  {conv.inconsistencyNote && (
+                    <div className="mt-2">
+                      <AlertBanner variant="danger">{conv.inconsistencyNote}</AlertBanner>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Conversation View */}
+        {selectedConversation ? (
+          <div className="flex-1 flex flex-col min-w-0">
+            <div className="border-b border-border px-6 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Avatar
+                  initials={selectedConversation.buyerInitials}
+                  className={`size-10 ${selectedConversation.buyerColor} text-white`}
+                />
+                <div>
+                  <p className="text-sm font-medium text-foreground">{selectedConversation.buyerName}</p>
+                  <p className="text-xs text-muted-foreground">{selectedConversation.itemTitle}</p>
                 </div>
               </div>
-            ))}
-          </div>
 
-          <div className="border-t border-zinc-950/5 dark:border-white/5 px-6 py-4 space-y-2">
-            <div className="flex gap-2">
-              <Input
-                type="text"
-                placeholder="Escrever mensagem..."
-                className="flex-1"
-              />
-              <Button>Enviar</Button>
+              <StatusBadge status={selectedConversation.status} />
             </div>
 
-            <div className="flex gap-2">
-              <Button outline className="flex-1">Agendar retirada</Button>
-              <Button outline className="flex-1">Arquivar</Button>
+            <div className="flex-1 overflow-auto px-6 py-4 space-y-3">
+              {selectedConversation.messages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}
+                >
+                  <div
+                    className={`max-w-xs px-3 py-2 rounded-lg text-sm ${
+                      msg.sender === "me"
+                        ? "bg-foreground/80 text-background"
+                        : "bg-muted text-foreground border border-border"
+                    }`}
+                  >
+                    <p>{msg.text}</p>
+                    <p className={`text-xs mt-1 opacity-50`}>{msg.timestamp}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="border-t border-border px-6 py-4 space-y-2">
+              <div className="flex gap-2">
+                <Input type="text" placeholder="Escrever mensagem..." className="flex-1" />
+                <Button>Enviar</Button>
+              </div>
+              <div className="flex gap-2">
+                <Button outline className="flex-1">Agendar retirada</Button>
+                <Button outline className="flex-1">Arquivar</Button>
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="flex-1 flex items-center justify-center text-zinc-500 dark:text-zinc-400">
-          <p className="text-sm">Selecione uma conversa para começar</p>
-        </div>
-      )}
-    </div>
+        ) : (
+          <div className="flex-1 flex items-center justify-center text-muted-foreground">
+            <p className="text-sm">Selecione uma conversa para começar</p>
+          </div>
+        )}
+      </div>
+    </Page>
   );
 }

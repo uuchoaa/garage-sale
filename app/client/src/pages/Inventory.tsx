@@ -3,6 +3,7 @@ import { Input, InputGroup } from "@/components/catalyst/input";
 import { Field, Label } from "@/components/catalyst/fieldset";
 import { Select } from "@/components/catalyst/select";
 import { Divider } from "@/components/catalyst/divider";
+import { Page } from "@/components/ds";
 import { useState } from "react";
 import {
   Plus,
@@ -98,17 +99,17 @@ const statusLabels = {
 };
 
 const statusClasses = {
-  draft: "text-zinc-400 italic border-zinc-200 dark:border-zinc-700",
-  available: "text-green-700 dark:text-green-600 border-green-300 dark:border-green-800/60",
-  reserved: "text-zinc-500 border-zinc-300 dark:border-zinc-600",
-  sold: "text-zinc-400 border-zinc-200 dark:border-zinc-700 line-through",
-  paused: "text-zinc-400 border-zinc-200 dark:border-zinc-700",
+  draft:     "text-muted-foreground italic border-border",
+  available: "text-status-success border-status-success-border",
+  reserved:  "text-muted-foreground border-border",
+  sold:      "text-muted-foreground border-border line-through",
+  paused:    "text-muted-foreground border-border",
 };
 
 const priorityClasses = {
-  high: "bg-red-50 text-red-700 dark:bg-red-950/15 dark:text-red-500/70",
-  medium: "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300",
-  low: "bg-zinc-50 text-zinc-400 dark:bg-zinc-900 dark:text-zinc-500",
+  high:   "bg-status-danger-subtle text-status-danger",
+  medium: "bg-muted text-muted-foreground",
+  low:    "bg-muted text-muted-foreground opacity-60",
 };
 
 const priorityLabels = {
@@ -167,64 +168,63 @@ export default function Inventory() {
   const availableCount = items.filter((i) => i.status === "available").length;
 
   return (
-    <div>
-      {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-semibold mb-3">Estoque</h1>
+    <Page>
+      <Page.Header
+        title="Estoque"
+        actions={
+          <>
+            <Button outline disabled={selectedItems.length === 0}>Ações em lote</Button>
+            <Button>
+              <Plus data-slot="icon" />
+              Adicionar itens
+            </Button>
+          </>
+        }
+      />
 
-        <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-6 space-x-4">
-          <span><span className="font-medium text-zinc-950 dark:text-zinc-200">{items.length}</span> itens</span>
-          <span><span className="font-medium text-zinc-950 dark:text-zinc-200">{soldCount}</span> vendidos</span>
-          <span><span className="font-medium text-zinc-950 dark:text-zinc-200">{reservedCount}</span> reservados</span>
-          <span><span className="font-medium text-zinc-950 dark:text-zinc-200">{availableCount}</span> disponíveis</span>
-          <span><span className="font-medium text-zinc-950 dark:text-zinc-200">{draftCount}</span> rascunhos</span>
-        </p>
+      <p className="text-sm text-muted-foreground mb-6 space-x-4">
+        <span><span className="font-medium text-foreground">{items.length}</span> itens</span>
+        <span><span className="font-medium text-foreground">{soldCount}</span> vendidos</span>
+        <span><span className="font-medium text-foreground">{reservedCount}</span> reservados</span>
+        <span><span className="font-medium text-foreground">{availableCount}</span> disponíveis</span>
+        <span><span className="font-medium text-foreground">{draftCount}</span> rascunhos</span>
+      </p>
 
-        <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex-1 min-w-48">
-            <InputGroup>
-              <Search data-slot="icon" />
-              <Input
-                type="search"
-                placeholder="Buscar por título ou descrição..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </InputGroup>
-          </div>
-
-          <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-            <option value="">Todos os status</option>
-            <option value="draft">Rascunho</option>
-            <option value="available">Disponível</option>
-            <option value="reserved">Reservado</option>
-            <option value="sold">Vendido</option>
-          </Select>
-
-          <Select value={sortBy} onChange={(e) => setSortBy(e.target.value as typeof sortBy)}>
-            <option value="recent">Recentes</option>
-            <option value="expensive">Mais caros</option>
-            <option value="drafts">Rascunhos primeiro</option>
-          </Select>
-
-          <Button>
-            <Plus data-slot="icon" />
-            Adicionar itens
-          </Button>
-          <Button outline disabled={selectedItems.length === 0}>
-            Ações em lote
-          </Button>
+      <div className="flex items-center gap-3 flex-wrap mb-6">
+        <div className="flex-1 min-w-48">
+          <InputGroup>
+            <Search data-slot="icon" />
+            <Input
+              type="search"
+              placeholder="Buscar por título ou descrição..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </InputGroup>
         </div>
+
+        <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+          <option value="">Todos os status</option>
+          <option value="draft">Rascunho</option>
+          <option value="available">Disponível</option>
+          <option value="reserved">Reservado</option>
+          <option value="sold">Vendido</option>
+        </Select>
+
+        <Select value={sortBy} onChange={(e) => setSortBy(e.target.value as typeof sortBy)}>
+          <option value="recent">Recentes</option>
+          <option value="expensive">Mais caros</option>
+          <option value="drafts">Rascunhos primeiro</option>
+        </Select>
       </div>
 
       <Divider />
 
-      {/* Table */}
       <div className="overflow-x-auto mt-4">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-zinc-950/5 dark:border-white/5">
-              <th className="px-3 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400 w-8">
+            <tr className="border-b border-border">
+              <th className="px-3 py-3 text-left font-medium text-muted-foreground w-8">
                 <input
                   type="checkbox"
                   checked={selectedItems.length === filtered.length && filtered.length > 0}
@@ -232,14 +232,14 @@ export default function Inventory() {
                   className="cursor-pointer rounded"
                 />
               </th>
-              <th className="px-3 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400">Foto</th>
-              <th className="px-3 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400">Item</th>
-              <th className="px-3 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400">Preço</th>
-              <th className="px-3 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400">Prioridade</th>
-              <th className="px-3 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400">Status</th>
-              <th className="px-3 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400">Interesse</th>
-              <th className="px-3 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400">Pronto para</th>
-              <th className="px-3 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400">Atualizado</th>
+              <th className="px-3 py-3 text-left font-medium text-muted-foreground">Foto</th>
+              <th className="px-3 py-3 text-left font-medium text-muted-foreground">Item</th>
+              <th className="px-3 py-3 text-left font-medium text-muted-foreground">Preço</th>
+              <th className="px-3 py-3 text-left font-medium text-muted-foreground">Prioridade</th>
+              <th className="px-3 py-3 text-left font-medium text-muted-foreground">Status</th>
+              <th className="px-3 py-3 text-left font-medium text-muted-foreground">Interesse</th>
+              <th className="px-3 py-3 text-left font-medium text-muted-foreground">Pronto para</th>
+              <th className="px-3 py-3 text-left font-medium text-muted-foreground">Atualizado</th>
               <th className="px-3 py-3 w-8"></th>
             </tr>
           </thead>
@@ -247,7 +247,7 @@ export default function Inventory() {
             {filtered.map((item) => (
               <tr
                 key={item.id}
-                className="border-b border-zinc-950/5 dark:border-white/5 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors"
+                className="border-b border-border cursor-pointer hover:bg-muted/50 transition-colors"
                 onClick={() => handleEditItem(item)}
               >
                 <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>
@@ -259,13 +259,13 @@ export default function Inventory() {
                   />
                 </td>
                 <td className="px-3 py-3">
-                  <div className="w-8 h-8 bg-zinc-100 dark:bg-zinc-800 rounded-lg"></div>
+                  <div className="w-8 h-8 bg-muted rounded-lg"></div>
                 </td>
                 <td className="px-3 py-3">
-                  <p className="font-medium text-zinc-950 dark:text-zinc-200">{item.title}</p>
-                  <p className="text-zinc-500 dark:text-zinc-400 text-xs mt-0.5">{item.subtitle}</p>
+                  <p className="font-medium text-foreground">{item.title}</p>
+                  <p className="text-muted-foreground text-xs mt-0.5">{item.subtitle}</p>
                 </td>
-                <td className="px-3 py-3 font-mono text-zinc-950 dark:text-zinc-200">
+                <td className="px-3 py-3 font-mono text-foreground">
                   R$ {item.price.toLocaleString("pt-BR")}
                 </td>
                 <td className="px-3 py-3">
@@ -278,25 +278,25 @@ export default function Inventory() {
                     {statusLabels[item.status]}
                   </span>
                 </td>
-                <td className="px-3 py-3 text-zinc-950 dark:text-zinc-200">
+                <td className="px-3 py-3 text-foreground">
                   {item.conversations > 0 ? (
                     <span className="text-xs font-medium">{item.conversations} conversa{item.conversations > 1 ? "s" : ""}</span>
                   ) : (
-                    <span className="text-xs text-zinc-400">—</span>
+                    <span className="text-xs text-muted-foreground">—</span>
                   )}
                 </td>
                 <td className="px-3 py-3">
                   <div className="flex gap-1">
-                    {item.whatsappReady && <CheckCircle2 size={14} className="text-green-700 dark:text-green-700/60" />}
+                    {item.whatsappReady && <CheckCircle2 size={14} className="text-status-success" />}
                     {!item.olxReady && item.status !== "draft" && (
-                      <AlertCircle size={14} className="text-red-600 dark:text-red-500/60" />
+                      <AlertCircle size={14} className="text-status-danger" />
                     )}
                   </div>
                 </td>
-                <td className="px-3 py-3 text-zinc-500 dark:text-zinc-400 text-xs">{item.lastUpdated}</td>
+                <td className="px-3 py-3 text-muted-foreground text-xs">{item.lastUpdated}</td>
                 <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>
-                  <button className="p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg">
-                    <MoreVertical size={14} className="text-zinc-400" />
+                  <button className="p-1 hover:bg-muted rounded-lg">
+                    <MoreVertical size={14} className="text-muted-foreground" />
                   </button>
                 </td>
               </tr>
@@ -309,17 +309,17 @@ export default function Inventory() {
       {showDrawer && editingItem && (
         <div className="fixed inset-0 z-50">
           <div
-            className="absolute inset-0 bg-zinc-950/40"
+            className="absolute inset-0 bg-foreground/40"
             onClick={() => setShowDrawer(false)}
           />
-          <div className="absolute right-0 top-0 bottom-0 w-96 bg-white dark:bg-zinc-900 border-l border-zinc-950/5 dark:border-white/5 shadow-xl flex flex-col">
-            <div className="border-b border-zinc-950/5 dark:border-white/5 px-6 py-4 flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-zinc-950 dark:text-zinc-200">Editar item</h2>
+          <div className="absolute right-0 top-0 bottom-0 w-96 bg-card border-l border-border shadow-xl flex flex-col">
+            <div className="border-b border-border px-6 py-4 flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-foreground">Editar item</h2>
               <button
                 onClick={() => setShowDrawer(false)}
-                className="p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg"
+                className="p-1 hover:bg-muted rounded-lg"
               >
-                <X size={16} className="text-zinc-500" />
+                <X size={16} className="text-muted-foreground" />
               </button>
             </div>
 
@@ -377,13 +377,13 @@ export default function Inventory() {
               </Field>
             </div>
 
-            <div className="border-t border-zinc-950/5 dark:border-white/5 px-6 py-4 flex gap-2">
+            <div className="border-t border-border px-6 py-4 flex gap-2">
               <Button onClick={handleSaveItem} className="flex-1">Salvar</Button>
               <Button outline onClick={() => setShowDrawer(false)} className="flex-1">Cancelar</Button>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </Page>
   );
 }

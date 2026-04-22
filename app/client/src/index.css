@@ -41,6 +41,17 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  /* Status semantic tokens */
+  --color-status-success: var(--status-success);
+  --color-status-success-subtle: var(--status-success-subtle);
+  --color-status-success-border: var(--status-success-border);
+  --color-status-danger: var(--status-danger);
+  --color-status-danger-subtle: var(--status-danger-subtle);
+  --color-status-danger-border: var(--status-danger-border);
+  --color-status-warning: var(--status-warning);
+  --color-status-warning-subtle: var(--status-warning-subtle);
+  --color-status-warning-border: var(--status-warning-border);
+  --color-status-muted: var(--muted-foreground);
 }
 
 :root {
@@ -78,6 +89,16 @@
   --sidebar-accent-foreground: oklch(1 0 0); /* White */
   --sidebar-border: oklch(0.25 0.006 286); /* Slate-800 */
   --sidebar-ring: oklch(0.4 0.015 65); /* Sage-600 */
+  /* Status tokens — light */
+  --status-success: oklch(0.45 0.13 142);
+  --status-success-subtle: oklch(0.97 0.02 142);
+  --status-success-border: oklch(0.82 0.07 142);
+  --status-danger: oklch(0.52 0.18 27);
+  --status-danger-subtle: oklch(0.97 0.02 27);
+  --status-danger-border: oklch(0.82 0.07 27);
+  --status-warning: oklch(0.52 0.16 70);
+  --status-warning-subtle: oklch(0.97 0.02 70);
+  --status-warning-border: oklch(0.82 0.07 70);
 }
 
 .dark {
@@ -113,6 +134,16 @@
   --sidebar-accent-foreground:  oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.488 0.243 264.376);
+  /* Status tokens — dark (muted to reduce glow) */
+  --status-success: oklch(0.52 0.10 142);
+  --status-success-subtle: oklch(0.22 0.03 142);
+  --status-success-border: oklch(0.32 0.05 142);
+  --status-danger: oklch(0.55 0.13 27);
+  --status-danger-subtle: oklch(0.22 0.03 27);
+  --status-danger-border: oklch(0.32 0.06 27);
+  --status-warning: oklch(0.55 0.12 70);
+  --status-warning-subtle: oklch(0.22 0.03 70);
+  --status-warning-border: oklch(0.32 0.06 70);
 }
 
 @layer base {

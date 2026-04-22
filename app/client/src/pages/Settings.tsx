@@ -3,8 +3,9 @@ import { Input } from "@/components/catalyst/input";
 import { Field, FieldGroup, Label, Description } from "@/components/catalyst/fieldset";
 import { Select } from "@/components/catalyst/select";
 import { Checkbox, CheckboxField } from "@/components/catalyst/checkbox";
+import { Page, Card, AlertBanner } from "@/components/ds";
 import { useState } from "react";
-import { Save, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Save } from "lucide-react";
 
 export default function Settings() {
   const [settings, setSettings] = useState({
@@ -25,24 +26,18 @@ export default function Settings() {
   };
 
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold mb-2">Configurações</h1>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
-          Gerencie suas preferências e informações pessoais.
-        </p>
-      </div>
+    <Page>
+      <Page.Header
+        title="Configurações"
+        description="Gerencie suas preferências e informações pessoais."
+      />
 
       <div className="max-w-2xl space-y-6">
         {saved && (
-          <div className="flex items-center gap-2 p-3 bg-green-50 dark:bg-green-950/10 border border-green-200 dark:border-green-900/40 rounded-lg">
-            <CheckCircle2 size={16} className="text-green-600 dark:text-green-600/70 flex-shrink-0" />
-            <p className="text-sm text-green-700 dark:text-green-600">Configurações salvas com sucesso.</p>
-          </div>
+          <AlertBanner variant="success">Configurações salvas com sucesso.</AlertBanner>
         )}
 
-        {/* Perfil */}
-        <div className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-6 bg-white dark:bg-zinc-900 shadow-xs">
+        <Card>
           <h2 className="text-sm font-semibold mb-6">Perfil</h2>
           <FieldGroup>
             <Field>
@@ -78,10 +73,9 @@ export default function Settings() {
               />
             </Field>
           </FieldGroup>
-        </div>
+        </Card>
 
-        {/* Preferências de venda */}
-        <div className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-6 bg-white dark:bg-zinc-900 shadow-xs">
+        <Card>
           <h2 className="text-sm font-semibold mb-6">Preferências de venda</h2>
           <div className="space-y-6">
             <CheckboxField>
@@ -119,26 +113,18 @@ export default function Settings() {
               </Select>
             </Field>
           </div>
-        </div>
+        </Card>
 
-        {/* Dados e privacidade */}
-        <div className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-6 bg-white dark:bg-zinc-900 shadow-xs">
+        <Card>
           <h2 className="text-sm font-semibold mb-6">Dados e privacidade</h2>
           <div className="space-y-3">
-            <div className="flex items-start gap-2 p-3 bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg">
-              <AlertCircle size={14} className="text-zinc-500 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Seus dados são armazenados localmente no navegador. Nada é enviado para servidores externos.
-              </p>
-            </div>
-            <Button outline className="w-full">
-              Exportar dados
-            </Button>
-            <Button color="red" className="w-full">
-              Limpar tudo
-            </Button>
+            <AlertBanner variant="muted">
+              Seus dados são armazenados localmente no navegador. Nada é enviado para servidores externos.
+            </AlertBanner>
+            <Button outline className="w-full">Exportar dados</Button>
+            <Button color="red" className="w-full">Limpar tudo</Button>
           </div>
-        </div>
+        </Card>
 
         <div>
           <Button onClick={handleSave} color="dark" className="w-full">
@@ -147,6 +133,6 @@ export default function Settings() {
           </Button>
         </div>
       </div>
-    </div>
+    </Page>
   );
 }
