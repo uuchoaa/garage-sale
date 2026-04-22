@@ -78,22 +78,22 @@ const channels: Channel[] = [
 const statusConfig = {
   connected: {
     label: "Conectado",
-    color: "text-green-600 dark:text-green-400",
+    color: "text-green-700 dark:text-green-600",
     icon: <CheckCircle2 size={16} />,
   },
   needs_auth: {
     label: "Reautenticar",
-    color: "text-red-600 dark:text-red-400",
+    color: "text-red-700 dark:text-red-500/70",
     icon: <AlertTriangle size={16} />,
   },
   suspended: {
     label: "Suspenso",
-    color: "text-red-600 dark:text-red-400",
+    color: "text-red-700 dark:text-red-500/70",
     icon: <AlertCircle size={16} />,
   },
   quota_exceeded: {
     label: "Cota excedida",
-    color: "text-red-600 dark:text-red-400",
+    color: "text-red-700 dark:text-red-500/70",
     icon: <AlertCircle size={16} />,
   },
   not_connected: {
@@ -125,9 +125,9 @@ export default function Channels() {
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="text-zinc-950 dark:text-white">{channel.icon}</div>
+                  <div className="text-zinc-950 dark:text-zinc-200">{channel.icon}</div>
                   <div>
-                    <h3 className="text-sm font-semibold text-zinc-950 dark:text-white">{channel.name}</h3>
+                    <h3 className="text-sm font-semibold text-zinc-950 dark:text-zinc-200">{channel.name}</h3>
                     <div className={`flex items-center gap-1.5 mt-1 text-xs ${config.color}`}>
                       {config.icon}
                       <span>{config.label}</span>
@@ -151,20 +151,20 @@ export default function Channels() {
                 <div className="grid grid-cols-4 gap-4 mb-4 pb-4 border-b border-zinc-950/5 dark:border-white/5">
                   <div>
                     <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Itens publicados</p>
-                    <p className="text-sm font-medium text-zinc-950 dark:text-white">{channel.postedItems}</p>
+                    <p className="text-sm font-medium text-zinc-950 dark:text-zinc-200">{channel.postedItems}</p>
                   </div>
                   <div>
                     <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Conversas ativas</p>
-                    <p className="text-sm font-medium text-zinc-950 dark:text-white">{channel.activeConversations}</p>
+                    <p className="text-sm font-medium text-zinc-950 dark:text-zinc-200">{channel.activeConversations}</p>
                   </div>
                   <div>
                     <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Última atividade</p>
-                    <p className="text-sm font-medium text-zinc-950 dark:text-white">{channel.lastActivity}</p>
+                    <p className="text-sm font-medium text-zinc-950 dark:text-zinc-200">{channel.lastActivity}</p>
                   </div>
                   {channel.contactCount && (
                     <div>
                       <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Contatos</p>
-                      <p className="text-sm font-medium text-zinc-950 dark:text-white">{channel.contactCount}</p>
+                      <p className="text-sm font-medium text-zinc-950 dark:text-zinc-200">{channel.contactCount}</p>
                     </div>
                   )}
                 </div>
@@ -172,11 +172,11 @@ export default function Channels() {
 
               {channel.id === "whatsapp" && channel.groups && (
                 <div>
-                  <p className="text-xs font-medium text-zinc-950 dark:text-white mb-2">Grupos para divulgação</p>
+                  <p className="text-xs font-medium text-zinc-950 dark:text-zinc-200 mb-2">Grupos para divulgação</p>
                   <div className="space-y-1">
                     {channel.groups.map((group) => (
                       <div key={group} className="flex items-center justify-between text-xs">
-                        <span className="text-zinc-950 dark:text-white">• {group}</span>
+                        <span className="text-zinc-950 dark:text-zinc-200">• {group}</span>
                         <Button plain>Enviar</Button>
                       </div>
                     ))}
@@ -186,10 +186,10 @@ export default function Channels() {
 
               {channel.id === "olx" && channel.quotaInfo && (
                 <div>
-                  <p className="text-xs font-medium text-zinc-950 dark:text-white mb-2">Cota de anúncios</p>
+                  <p className="text-xs font-medium text-zinc-950 dark:text-zinc-200 mb-2">Cota de anúncios</p>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
-                      <div className="h-full w-3/5 bg-zinc-900 dark:bg-white rounded-full" />
+                      <div className="h-full w-3/5 bg-zinc-900 dark:bg-zinc-500 rounded-full" />
                     </div>
                     <span className="text-xs text-zinc-500 dark:text-zinc-400">{channel.quotaInfo}</span>
                   </div>
@@ -197,9 +197,9 @@ export default function Channels() {
               )}
 
               {channel.status === "needs_auth" && (
-                <div className="flex items-center gap-2 p-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg">
-                  <AlertTriangle size={14} className="text-red-600 dark:text-red-400 flex-shrink-0" />
-                  <p className="text-xs text-red-600 dark:text-red-400">
+                <div className="flex items-center gap-2 p-3 bg-red-50 dark:bg-red-950/10 border border-red-200 dark:border-red-900/40 rounded-lg">
+                  <AlertTriangle size={14} className="text-red-600 dark:text-red-500/70 flex-shrink-0" />
+                  <p className="text-xs text-red-600 dark:text-red-500/70">
                     Sua autenticação expirou. Reconecte para continuar publicando.
                   </p>
                 </div>

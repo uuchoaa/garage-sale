@@ -35,9 +35,9 @@ export default function Settings() {
 
       <div className="max-w-2xl space-y-6">
         {saved && (
-          <div className="flex items-center gap-2 p-3 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg">
-            <CheckCircle2 size={16} className="text-green-600 flex-shrink-0" />
-            <p className="text-sm text-green-700 dark:text-green-400">Configurações salvas com sucesso.</p>
+          <div className="flex items-center gap-2 p-3 bg-green-50 dark:bg-green-950/10 border border-green-200 dark:border-green-900/40 rounded-lg">
+            <CheckCircle2 size={16} className="text-green-600 dark:text-green-600/70 flex-shrink-0" />
+            <p className="text-sm text-green-700 dark:text-green-600">Configurações salvas com sucesso.</p>
           </div>
         )}
 

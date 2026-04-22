@@ -70,32 +70,32 @@ export default function Dashboard() {
           <div className="flex items-center gap-2">
             <Clock size={16} className="text-zinc-400" />
             <span className="text-sm text-zinc-500 dark:text-zinc-400">
-              <span className="font-medium text-zinc-950 dark:text-white">{daysUntilMove}</span> dias até a mudança
+              <span className="font-medium text-zinc-950 dark:text-zinc-200">{daysUntilMove}</span> dias até a mudança
             </span>
           </div>
           <div className="flex items-center gap-2">
             <Package size={16} className="text-zinc-400" />
             <span className="text-sm text-zinc-500 dark:text-zinc-400">
-              <span className="font-medium text-zinc-950 dark:text-white">{itemsSold}</span>/{totalItems} itens vendidos
+              <span className="font-medium text-zinc-950 dark:text-zinc-200">{itemsSold}</span>/{totalItems} itens vendidos
             </span>
           </div>
           <div className="flex items-center gap-2">
             <DollarSign size={16} className="text-zinc-400" />
             <span className="text-sm text-zinc-500 dark:text-zinc-400">
-              <span className="font-medium text-zinc-950 dark:text-white">R$ {totalReceived.toLocaleString("pt-BR")}</span> recebido
+              <span className="font-medium text-zinc-950 dark:text-zinc-200">R$ {totalReceived.toLocaleString("pt-BR")}</span> recebido
             </span>
           </div>
           <div className="flex items-center gap-2">
             <AlertCircle size={16} className="text-zinc-400" />
             <span className="text-sm text-zinc-500 dark:text-zinc-400">
-              <span className="font-medium text-zinc-950 dark:text-white">R$ {totalAgreed.toLocaleString("pt-BR")}</span> acordado
+              <span className="font-medium text-zinc-950 dark:text-zinc-200">R$ {totalAgreed.toLocaleString("pt-BR")}</span> acordado
             </span>
           </div>
         </div>
 
         <div className="w-full h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
           <div
-            className="h-full bg-zinc-900 dark:bg-white rounded-full transition-all duration-300"
+            className="h-full bg-zinc-900 dark:bg-zinc-500 rounded-full transition-all duration-300"
             style={{ width: `${(itemsSold / totalItems) * 100}%` }}
           />
         </div>
@@ -108,7 +108,7 @@ export default function Dashboard() {
 
           {visibleQueue.length === 0 ? (
             <div className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-8 text-center bg-white dark:bg-zinc-900">
-              <CheckCircle2 size={32} className="mx-auto mb-3 text-green-500" />
+              <CheckCircle2 size={32} className="mx-auto mb-3 text-green-700 dark:text-green-700/60" />
               <p className="text-sm text-zinc-500 dark:text-zinc-400">Nada urgente agora</p>
             </div>
           ) : (
@@ -118,7 +118,7 @@ export default function Dashboard() {
                   key={item.id}
                   className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-4 flex items-center justify-between bg-white dark:bg-zinc-900"
                 >
-                  <p className="text-sm text-zinc-950 dark:text-white flex-1">{item.description}</p>
+                  <p className="text-sm text-zinc-950 dark:text-zinc-200 flex-1">{item.description}</p>
                   <Button onClick={() => handleActionComplete(item.id)} outline>
                     {item.action}
                   </Button>
@@ -145,17 +145,17 @@ export default function Dashboard() {
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <p className="text-sm font-medium text-zinc-950 dark:text-white">{pickup.buyer}</p>
+                      <p className="text-sm font-medium text-zinc-950 dark:text-zinc-200">{pickup.buyer}</p>
                       <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{pickup.time}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-medium text-zinc-950 dark:text-white font-mono">
+                      <p className="text-sm font-medium text-zinc-950 dark:text-zinc-200 font-mono">
                         R$ {pickup.total.toLocaleString("pt-BR")}
                       </p>
                       <span
                         className={`inline-block text-xs px-2 py-0.5 rounded mt-1 ${
                           pickup.status === "confirmed"
-                            ? "bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400"
+                            ? "bg-green-50 text-green-700 dark:bg-green-950/20 dark:text-green-600"
                             : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
                         }`}
                       >
@@ -166,7 +166,7 @@ export default function Dashboard() {
 
                   <div className="mb-4">
                     <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Itens:</p>
-                    <ul className="text-sm text-zinc-950 dark:text-white space-y-0.5">
+                    <ul className="text-sm text-zinc-950 dark:text-zinc-200 space-y-0.5">
                       {pickup.items.map((item, idx) => (
                         <li key={idx}>• {item}</li>
                       ))}

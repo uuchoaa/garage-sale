@@ -99,14 +99,14 @@ const statusLabels = {
 
 const statusClasses = {
   draft: "text-zinc-400 italic border-zinc-200 dark:border-zinc-700",
-  available: "text-green-600 dark:text-green-400 border-green-300 dark:border-green-700",
+  available: "text-green-700 dark:text-green-600 border-green-300 dark:border-green-800/60",
   reserved: "text-zinc-500 border-zinc-300 dark:border-zinc-600",
   sold: "text-zinc-400 border-zinc-200 dark:border-zinc-700 line-through",
   paused: "text-zinc-400 border-zinc-200 dark:border-zinc-700",
 };
 
 const priorityClasses = {
-  high: "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400",
+  high: "bg-red-50 text-red-700 dark:bg-red-950/15 dark:text-red-500/70",
   medium: "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300",
   low: "bg-zinc-50 text-zinc-400 dark:bg-zinc-900 dark:text-zinc-500",
 };
@@ -173,11 +173,11 @@ export default function Inventory() {
         <h1 className="text-2xl font-semibold mb-3">Estoque</h1>
 
         <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-6 space-x-4">
-          <span><span className="font-medium text-zinc-950 dark:text-white">{items.length}</span> itens</span>
-          <span><span className="font-medium text-zinc-950 dark:text-white">{soldCount}</span> vendidos</span>
-          <span><span className="font-medium text-zinc-950 dark:text-white">{reservedCount}</span> reservados</span>
-          <span><span className="font-medium text-zinc-950 dark:text-white">{availableCount}</span> disponíveis</span>
-          <span><span className="font-medium text-zinc-950 dark:text-white">{draftCount}</span> rascunhos</span>
+          <span><span className="font-medium text-zinc-950 dark:text-zinc-200">{items.length}</span> itens</span>
+          <span><span className="font-medium text-zinc-950 dark:text-zinc-200">{soldCount}</span> vendidos</span>
+          <span><span className="font-medium text-zinc-950 dark:text-zinc-200">{reservedCount}</span> reservados</span>
+          <span><span className="font-medium text-zinc-950 dark:text-zinc-200">{availableCount}</span> disponíveis</span>
+          <span><span className="font-medium text-zinc-950 dark:text-zinc-200">{draftCount}</span> rascunhos</span>
         </p>
 
         <div className="flex items-center gap-3 flex-wrap">
@@ -262,10 +262,10 @@ export default function Inventory() {
                   <div className="w-8 h-8 bg-zinc-100 dark:bg-zinc-800 rounded-lg"></div>
                 </td>
                 <td className="px-3 py-3">
-                  <p className="font-medium text-zinc-950 dark:text-white">{item.title}</p>
+                  <p className="font-medium text-zinc-950 dark:text-zinc-200">{item.title}</p>
                   <p className="text-zinc-500 dark:text-zinc-400 text-xs mt-0.5">{item.subtitle}</p>
                 </td>
-                <td className="px-3 py-3 font-mono text-zinc-950 dark:text-white">
+                <td className="px-3 py-3 font-mono text-zinc-950 dark:text-zinc-200">
                   R$ {item.price.toLocaleString("pt-BR")}
                 </td>
                 <td className="px-3 py-3">
@@ -278,7 +278,7 @@ export default function Inventory() {
                     {statusLabels[item.status]}
                   </span>
                 </td>
-                <td className="px-3 py-3 text-zinc-950 dark:text-white">
+                <td className="px-3 py-3 text-zinc-950 dark:text-zinc-200">
                   {item.conversations > 0 ? (
                     <span className="text-xs font-medium">{item.conversations} conversa{item.conversations > 1 ? "s" : ""}</span>
                   ) : (
@@ -287,9 +287,9 @@ export default function Inventory() {
                 </td>
                 <td className="px-3 py-3">
                   <div className="flex gap-1">
-                    {item.whatsappReady && <CheckCircle2 size={14} className="text-green-500" />}
+                    {item.whatsappReady && <CheckCircle2 size={14} className="text-green-700 dark:text-green-700/60" />}
                     {!item.olxReady && item.status !== "draft" && (
-                      <AlertCircle size={14} className="text-red-500" />
+                      <AlertCircle size={14} className="text-red-600 dark:text-red-500/60" />
                     )}
                   </div>
                 </td>
@@ -314,7 +314,7 @@ export default function Inventory() {
           />
           <div className="absolute right-0 top-0 bottom-0 w-96 bg-white dark:bg-zinc-900 border-l border-zinc-950/5 dark:border-white/5 shadow-xl flex flex-col">
             <div className="border-b border-zinc-950/5 dark:border-white/5 px-6 py-4 flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-zinc-950 dark:text-white">Editar item</h2>
+              <h2 className="text-sm font-semibold text-zinc-950 dark:text-zinc-200">Editar item</h2>
               <button
                 onClick={() => setShowDrawer(false)}
                 className="p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg"
