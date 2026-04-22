@@ -1,5 +1,5 @@
 import { Button } from "@/components/catalyst/button";
-import { Page, Card, StatusBadge, AlertBanner } from "@/components/ds";
+import { Page, Card, StatusPill, Alert } from "@/components/ds";
 import {
   Clock,
   Link2,
@@ -20,6 +20,21 @@ interface Channel {
   contactCount?: number;
   quotaInfo?: string;
   groups?: string[];
+}
+
+const channelPillVariant: Record<string, "success" | "danger" | "warning" | "neutral"> = {
+  connected: "success",
+  needs_auth: "danger",
+  suspended: "danger",
+  quota_exceeded: "warning",
+  not_connected: "neutral",
+}
+const channelPillLabel: Record<string, string> = {
+  connected: "Conectado",
+  needs_auth: "Reautenticar",
+  suspended: "Suspenso",
+  quota_exceeded: "Cota esgotada",
+  not_connected: "Não conectado",
 }
 
 const channels: Channel[] = [
@@ -93,7 +108,7 @@ export default function Channels() {
                   <div>
                     <h3 className="text-sm font-semibold text-foreground">{channel.name}</h3>
                     <div className="mt-1">
-                      <StatusBadge status={channel.status} size={14} />
+                      <StatusPill variant={channelPillVariant[channel.status]}>{channelPillLabel[channel.status]}</StatusPill>
                     </div>
                   </div>
                 </div>
@@ -160,15 +175,15 @@ export default function Channels() {
               )}
 
               {channel.status === "needs_auth" && (
-                <AlertBanner variant="danger">
+                <Alert variant="danger">
                   Sua autenticação expirou. Reconecte para continuar publicando.
-                </AlertBanner>
+                </Alert>
               )}
 
               {channel.status === "not_connected" && (
-                <AlertBanner variant="muted">
+                <Alert variant="muted">
                   Conecte este canal para começar a publicar.
-                </AlertBanner>
+                </Alert>
               )}
             </Card>
           );

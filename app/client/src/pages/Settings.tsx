@@ -3,7 +3,7 @@ import { Input } from "@/components/catalyst/input";
 import { Field, FieldGroup, Label, Description } from "@/components/catalyst/fieldset";
 import { Select } from "@/components/catalyst/select";
 import { Checkbox, CheckboxField } from "@/components/catalyst/checkbox";
-import { Page, Card, AlertBanner } from "@/components/ds";
+import { Page, Card, Alert } from "@/components/ds";
 import { useState } from "react";
 import { Save } from "lucide-react";
 
@@ -34,7 +34,7 @@ export default function Settings() {
 
       <div className="max-w-2xl space-y-6">
         {saved && (
-          <AlertBanner variant="success">Configurações salvas com sucesso.</AlertBanner>
+          <Alert variant="success">Configurações salvas com sucesso.</Alert>
         )}
 
         <Card>
@@ -118,9 +118,9 @@ export default function Settings() {
         <Card>
           <h2 className="text-sm font-semibold mb-6">Dados e privacidade</h2>
           <div className="space-y-3">
-            <AlertBanner variant="muted">
+            <Alert variant="muted">
               Seus dados são armazenados localmente no navegador. Nada é enviado para servidores externos.
-            </AlertBanner>
+            </Alert>
             <Button outline className="w-full">Exportar dados</Button>
             <Button color="red" className="w-full">Limpar tudo</Button>
           </div>

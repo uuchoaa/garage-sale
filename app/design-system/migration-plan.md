@@ -2,6 +2,8 @@
 
 Execution plan for migrating the project's design system to the Tailwind Plus App UI visual language. Designed to be executed iteratively (Ralph loop-compatible).
 
+Source library: `/design-system/application-ui-v4/react/` — real JSX available for every block.
+
 ---
 
 ## Goal
@@ -9,8 +11,8 @@ Execution plan for migrating the project's design system to the Tailwind Plus Ap
 Produce a design system that:
 
 1. Matches the Tailwind Plus App UI visual language verbatim (palette, density, refinement).
-2. Exposes a **Blocks catalogue** covering the recurring App UI patterns (headings, stats, tables, feeds, empty states, cards, navs, description lists, status pills).
-3. Lives behind an opinionated contract: pages compose only from DS blocks and Catalyst primitives — never raw Tailwind color classes, never Tailwind Plus JSX copied directly.
+2. Exposes a **Blocks catalogue** covering the recurring App UI patterns (headings, stats, tables, empty states, cards, navs, description lists, status pills).
+3. Lives behind an opinionated contract: pages compose only from DS blocks and Catalyst primitives — never raw Tailwind color classes, never App UI JSX copied directly.
 4. Ships with Storybook as visual documentation.
 
 ---
@@ -22,7 +24,67 @@ Produce a design system that:
 - `client/src/index.css` — all tokens
 - `client/src/components/catalyst/` — interactive primitives (keep)
 - `client/src/components/ds/` — structural primitives + blocks (rebuild)
+- `design-system/application-ui-v4/react/` — **source of truth for all block JSX**
 - `DESIGN_GUIDE.md` — **obsolete; delete in Phase 8**
+
+---
+
+## Translation guide
+
+All blocks are ported from App UI source. Apply these translations when porting.
+
+### Token mapping (App UI → semantic tokens)
+
+| App UI classes | Semantic token |
+|---|---|
+| `text-gray-900 dark:text-white` | `text-foreground` |
+| `text-gray-700 dark:text-gray-300` | `text-foreground` |
+| `text-gray-100` | `text-foreground` |
+| `text-gray-500 dark:text-gray-400` | `text-muted-foreground` |
+| `bg-white dark:bg-gray-900` | `bg-card` |
+| `bg-white dark:bg-gray-800/50` | `bg-card` |
+| `bg-gray-50 dark:bg-gray-800/50` | `bg-muted` |
+| `bg-gray-900/5 dark:bg-white/10` | `bg-foreground/5` (gap separator) |
+| `divide-gray-200 dark:divide-white/10` | `divide-border` |
+| `divide-gray-300 dark:divide-white/15` | `divide-border` |
+| `border-gray-100 dark:border-white/10` | `border-border` |
+| `border-gray-200 dark:border-white/10` | `border-border` |
+| `inset-ring-gray-300 dark:inset-ring-white/10` | `inset-ring-border` |
+| `shadow-sm dark:shadow-none dark:inset-ring dark:inset-ring-white/10` | `shadow-sm dark:shadow-none dark:inset-ring dark:inset-ring-border` |
+| `text-indigo-600 dark:text-indigo-400` | `text-primary` |
+| `bg-indigo-600 hover:bg-indigo-500 dark:bg-indigo-500` | `bg-primary hover:bg-primary/90` |
+| `focus-visible:outline-indigo-600` | `focus-visible:outline-primary` |
+| `text-green-700 bg-green-50 inset-ring-green-600/20` | `text-status-success bg-status-success-subtle inset-ring-status-success-border/20` |
+| `dark:bg-green-400/10 dark:text-green-400 dark:inset-ring-green-400/20` | (covered by tokens above) |
+| `text-red-700 bg-red-50 inset-ring-red-600/10` | `text-status-danger bg-status-danger-subtle inset-ring-status-danger-border/10` |
+| `dark:bg-red-400/10 dark:text-red-400` | (covered by tokens above) |
+| `text-yellow-800 bg-yellow-50 inset-ring-yellow-600/20` | `text-status-warning bg-status-warning-subtle inset-ring-status-warning-border/20` |
+| `text-rose-600 dark:text-rose-400` (negative trend) | `text-status-danger` |
+| `text-green-800 bg-green-100 dark:bg-green-400/10 dark:text-green-400` | `text-status-success bg-status-success-subtle` |
+| `text-red-800 bg-red-100 dark:bg-red-400/10 dark:text-red-400` | `text-status-danger bg-status-danger-subtle` |
+
+### Icon mapping (Heroicons → Lucide)
+
+App UI uses Heroicons. This project uses `lucide-react` exclusively.
+
+| Heroicon import | Lucide equivalent |
+|---|---|
+| `ArrowUpIcon` (20/solid) | `ArrowUp` |
+| `ArrowDownIcon` (20/solid) | `ArrowDown` |
+| `PlusIcon` (20/solid) | `Plus` |
+| `ChevronDownIcon` (16/solid) | `ChevronDown` |
+| `PaperClipIcon` (20/solid) | `Paperclip` |
+| `FolderIcon` (24/outline) | `Folder` |
+| `DocumentIcon` (24/outline) | `FileText` |
+| `EllipsisVerticalIcon` | `EllipsisVertical` |
+
+### `inset-ring` in Tailwind v4
+
+App UI uses `inset-ring inset-ring-{color}` — Tailwind v4 syntax for box-shadow-based inset borders. Our setup imports `@import "tailwindcss"` (v4), so this works natively. `inset-ring-border` resolves to `--color-border` which is already defined in `@theme inline`.
+
+### Navigation pattern
+
+App UI tabs use raw `<a href>` for navigation. In this project, use `onClick` callbacks (wouter-compatible). The `SecondaryNav` block accepts `tabs: Array<{ label, href?, onClick?, current }>`.
 
 ---
 
@@ -49,14 +111,14 @@ All must be true to emit `<promise>MIGRATION-COMPLETE</promise>`:
 
 Update as each phase completes. Check boxes inline.
 
-- [ ] Phase 1 — Tokens reset
-- [ ] Phase 2 — Storybook setup
-- [ ] Phase 3 — Primitive rewrite (`Page`, `Grid`)
-- [ ] Phase 4 — Core block catalogue
-- [ ] Phase 5 — Cashflow validation page
-- [ ] Phase 6 — Migrate existing pages
-- [ ] Phase 7 — Delete obsolete primitives
-- [ ] Phase 8 — Documentation finalization
+- [x] Phase 1 — Tokens reset
+- [x] Phase 2 — Storybook setup
+- [x] Phase 3 — Primitive rewrite (`Page`, `Grid`)
+- [x] Phase 4 — Core block catalogue
+- [x] Phase 5 — Cashflow validation page
+- [x] Phase 6 — Migrate existing pages
+- [x] Phase 7 — Delete obsolete primitives
+- [x] Phase 8 — Documentation finalization
 
 ---
 
@@ -69,13 +131,22 @@ Revert the contrast reductions applied in earlier sessions. Align tokens with Ap
 **Changes:**
 
 - `--primary` / `--accent` → indigo (`oklch(0.54 0.24 264)` light / `oklch(0.65 0.22 264)` dark)
-- `--status-success` → saturated green (match App UI `text-green-700 bg-green-50 ring-green-600/20` in light; `dark:bg-green-500/10 dark:text-green-500 dark:ring-green-500/10`)
-- `--status-danger` → saturated red (match `text-red-700 bg-red-50 ring-red-600/10` / `dark:bg-red-500/10 dark:text-red-400 dark:ring-red-500/10`)
-- Dark mode `--background` → `oklch(0.141 0.005 285.823)` (zinc-950 equivalent)
-- Dark mode `--border` → `oklch(1 0 0 / 10%)` (white/10) — already present; verify
-- Add `--ring-subtle` for the `ring-white/10` patterns used in cards/avatars
+- Also update `--ring`, `--sidebar-primary`, `--sidebar-accent`, `--sidebar-ring` to indigo (they were all pointing to the old sage value)
+- `--status-success` → saturated green:
+  - Light: text `oklch(0.527 0.154 150)` / bg `oklch(0.982 0.018 155)` / border `oklch(0.627 0.194 149)`
+  - Dark: text `oklch(0.723 0.219 149)` / bg+border `oklch(0.723 0.219 149 / 10%)`
+- `--status-danger` → saturated red:
+  - Light: text `oklch(0.505 0.213 27)` / bg `oklch(0.971 0.013 17)` / border `oklch(0.577 0.245 27)`
+  - Dark: text `oklch(0.704 0.191 22)` / bg+border `oklch(0.637 0.237 25 / 10%)`
+- `--status-warning` → saturated yellow:
+  - Light: text `oklch(0.554 0.135 66)` / bg `oklch(0.987 0.026 102)` / border `oklch(0.68 0.162 75)`
+  - Dark: text `oklch(0.795 0.184 86)` / bg+border `oklch(0.795 0.184 86 / 10%)`
+- Dark mode `--background` → `oklch(0.141 0.005 285.823)` (zinc-950) — verify already set
+- Dark mode `--border` → `oklch(1 0 0 / 10%)` (white/10) — verify already set
+- Add `--ring-subtle: oklch(1 0 0 / 10%)` in `.dark` / `oklch(0 0 0 / 10%)` in `:root`
+- Add `--color-ring-subtle: var(--ring-subtle)` to `@theme inline`
 
-Keep token names stable — only values change.
+Keep all other token names stable — only values change.
 
 **Verify:**
 
@@ -83,35 +154,31 @@ Keep token names stable — only values change.
 pnpm check
 ```
 
-**Mark complete:** check the Phase 1 box in the progress tracker above.
-
 ---
 
 ## Phase 2 — Storybook setup
 
-**Install:**
-
-```bash
-pnpm dlx storybook@latest init --yes --package-manager=pnpm
-```
-
-**Configure `.storybook/preview.ts`:**
-
-- Import `@/index.css`
-- Default story background: `bg-background`
-- Set `parameters.backgrounds.default` to match dark token
-- Add a decorator that forces `.dark` class on `<html>`
+Storybook is already installed (`pnpm storybook` and `pnpm build-storybook` scripts exist). Only configuration and cleanup needed.
 
 **Configure `.storybook/main.ts`:**
 
-- `stories: ['../client/src/**/*.stories.@(ts|tsx|mdx)']`
-- Framework: `@storybook/react-vite`
-- Addons: essentials, interactions
+- Set `stories` glob: `['../client/src/**/*.stories.@(ts|tsx|mdx)']`
+- Framework must be `@storybook/react-vite`
+- Keep addons: essentials, interactions
+
+**Configure `.storybook/preview.ts`:**
+
+- Import `../client/src/index.css`
+- Add a decorator that adds `.dark` class to `<html>` (app is forced dark)
+- Set `parameters.backgrounds.default = 'dark'` with value matching `--background` dark token
 
 **Clean up:**
 
-- Delete any generated example stories (look in `client/src/stories/` or wherever init dropped them)
-- Add `"storybook": "storybook dev -p 6006"` and `"build-storybook": "storybook build"` to `package.json` scripts (init usually does this — verify)
+- Delete `app/stories/` directory (generated examples: `Button.stories.ts`, `Header.stories.ts`, `Page.stories.ts`, etc.)
+
+**Fallback (Tailwind v4 not activating in Storybook):**
+
+Create `.storybook/vite.config.ts` mirroring the root `vite.config.ts` (react plugin + `@tailwindcss/vite` plugin).
 
 **Verify:**
 
@@ -119,19 +186,15 @@ pnpm dlx storybook@latest init --yes --package-manager=pnpm
 pnpm storybook
 ```
 
-Should start without errors on port 6006. Smoke-check: open http://localhost:6006 and confirm the shell renders.
-
-**Fallback if Tailwind v4 doesn't activate in Storybook:**
-
-- Explicitly import `../client/src/index.css` in `preview.ts`
-- If Vite config isolation is required, create `.storybook/vite.config.ts` mirroring the root `vite.config.ts` minimally (react plugin + tailwindcss plugin)
+Confirm shell renders at http://localhost:6006 with dark background and tokens active.
 
 ---
 
 ## Phase 3 — Primitive rewrite
 
-**Move:** `client/src/components/ds/Page.tsx` → `client/src/components/ds/primitives/Page.tsx`
-**Move:** `client/src/components/ds/Grid.tsx` → `client/src/components/ds/primitives/Grid.tsx`
+**Move:**
+- `client/src/components/ds/Page.tsx` → `client/src/components/ds/primitives/Page.tsx`
+- `client/src/components/ds/Grid.tsx` → `client/src/components/ds/primitives/Grid.tsx`
 
 **Revise `Page`:**
 
@@ -142,8 +205,8 @@ Should start without errors on port 6006. Smoke-check: open http://localhost:600
 **Revise `Grid`:**
 
 - Keep `cols`, `gap`
-- Add `divide?: "x" | "y"` for stats-grid patterns (adds `divide-x divide-border` / `divide-y`)
-- Add `border?: boolean` for the top/bottom border pattern seen in App UI stats
+- Add `divide?: "x" | "y"` → adds `divide-x divide-border` or `divide-y divide-border`
+- Add `border?: boolean` → adds `inset-ring inset-ring-border` pattern used in stats cards
 
 **Stories required:**
 
@@ -159,49 +222,181 @@ pnpm check
 pnpm storybook
 ```
 
-Stories for Page and Grid must render.
-
 ---
 
 ## Phase 4 — Core block catalogue
 
-Build the following blocks in `client/src/components/ds/blocks/`. Each requires a `.stories.tsx` in the same folder.
+Build each block in `client/src/components/ds/blocks/`. Each requires a co-located `.stories.tsx`.
 
-### Blocks to build
+### Block specs (with source file references)
 
-- **`PageHeading`** — title + optional description + optional actions slot
-  - Reference: https://tailwindcss.com/plus/ui-blocks/application-ui/headings/page-headings
+---
 
-- **`SecondaryNav`** — horizontal filter tabs with optional leading title and trailing action
-  - Pattern seen in Cashflow: "Cashflow | Last 7 days | Last 30 days | All-time | [+ New invoice]"
+#### `StatusPill`
 
-- **`StatsGrid`** + **`Stat`** — 2/3/4-column stat grid with dividers, change-type coloring
-  - Reference: https://tailwindcss.com/plus/ui-blocks/application-ui/data-display/stats
+**Source:** `elements/badges/05-pill-with-border.jsx`
 
-- **`DataTable`** — sortable table with optional row grouping (by date)
-  - Starts minimal: accepts `columns`, `groups: [{ label, rows }]`, `emptyMessage`
-  - Reference: https://tailwindcss.com/plus/ui-blocks/application-ui/lists/tables
+Rounded pill with inset ring. Variants: `success | danger | warning | neutral`.
 
-- **`StatusPill`** — rectangular pill with background + ring (different from our previous inline icon badge)
-  - Variants: `success | danger | warning | neutral`
-  - Pattern: `bg-status-*-subtle text-status-* ring-1 ring-inset ring-status-*-border`
+```tsx
+// App UI pattern (translated):
+<span className="inline-flex items-center rounded-full bg-status-success-subtle px-2 py-1 text-xs font-medium text-status-success inset-ring inset-ring-status-success-border/20">
+  Active
+</span>
+```
 
-- **`CardWithHeader`** — card with colored header band + body
-  - Reference pattern from Cashflow "Recent clients" cards
+Props: `variant`, `children`.
 
-- **`DescriptionList`** — `<dl>` with `divide-y` rows
-  - Can wrap Catalyst's `description-list` if it fits; otherwise own implementation
-  - Reference: https://tailwindcss.com/plus/ui-blocks/application-ui/data-display/description-lists
+---
 
-- **`EmptyState`** — centered icon + title + description + optional action
-  - Reference: https://tailwindcss.com/plus/ui-blocks/application-ui/feedback/empty-states
+#### `PageHeading`
 
-### Contract for each block
+**Source:** `headings/page-headings/01-with-actions.jsx`
 
-- TypeScript props interface with JSDoc on each prop
-- Header JSDoc: what it is, when to use, when NOT to use
-- Zero raw color classes (only tokens)
-- Co-located `.stories.tsx` with at least: default state + every variant
+Title + optional description + optional `actions` slot (ReactNode).
+
+```tsx
+// App UI pattern (translated):
+<div className="md:flex md:items-center md:justify-between">
+  <div className="min-w-0 flex-1">
+    <h2 className="text-2xl/7 font-bold text-foreground sm:truncate sm:text-3xl sm:tracking-tight">
+      {title}
+    </h2>
+  </div>
+  {actions && <div className="mt-4 flex md:mt-0 md:ml-4">{actions}</div>}
+</div>
+```
+
+Props: `title`, `description?`, `actions?`.
+
+---
+
+#### `SecondaryNav`
+
+**Source:** `navigation/tabs/01-tabs-with-underline.jsx`
+
+Underline tabs with mobile `<select>` fallback. Accepts `onClick` handlers (no `href`).
+
+Key pattern:
+- Mobile: native `<select>` with `ChevronDown` overlay
+- Desktop: `border-b border-border` nav with `aria-current="page"` on active tab
+- Active tab: `border-primary text-primary`
+- Inactive: `border-transparent text-muted-foreground hover:border-border hover:text-foreground`
+
+Props: `tabs: Array<{ label, current, onClick? }>`, `trailingAction?` (ReactNode).
+
+---
+
+#### `StatsGrid` + `Stat`
+
+**Two variants from source:**
+
+1. **Gap-px grid** (`data-display/stats/01-with-trending.jsx`):
+   - `<dl className="grid grid-cols-1 gap-px bg-foreground/5 sm:grid-cols-2 lg:grid-cols-4">`
+   - Each cell: `bg-card px-4 py-10`
+   - Change indicator: `text-status-danger` (negative) / `text-foreground` (positive)
+
+2. **Shared-border card** (`data-display/stats/05-with-shared-borders.jsx`):
+   - `<dl className="grid grid-cols-1 divide-border overflow-hidden rounded-lg bg-card shadow-sm md:grid-cols-3 md:divide-x dark:shadow-none dark:inset-ring dark:inset-ring-border">`
+   - Value: `text-primary`
+   - Change badge: `bg-status-success-subtle text-status-success` / `bg-status-danger-subtle text-status-danger`
+   - Icon: `ArrowUp` / `ArrowDown` from `lucide-react`
+
+`StatsGrid` prop `variant?: "gap" | "card"` selects between the two. Default `"gap"`.
+
+`Stat` props: `name`, `value`, `change?`, `changeType?: "positive" | "negative"`, `previousValue?`.
+
+---
+
+#### `DataTable`
+
+**Source:** `lists/tables/01-simple.jsx` (flat) + `lists/tables/09-with-grouped-rows.jsx` (grouped)
+
+Generic table accepting typed column definitions and row data. Supports optional row grouping.
+
+```tsx
+interface Column<T> {
+  key: keyof T
+  label: string
+  align?: "left" | "right"
+  render?: (value: T[keyof T], row: T) => ReactNode
+}
+
+interface RowGroup<T> {
+  label: string
+  rows: T[]
+}
+```
+
+Key pattern from source (translated):
+- Wrapper: `min-w-full divide-y divide-border`
+- Header cell: `text-sm font-semibold text-foreground`
+- Body divider: `divide-y divide-border`
+- Group header row: `bg-muted text-sm font-semibold text-foreground`
+- Data cell: `text-sm text-muted-foreground`
+
+Props: `columns`, `rows?` (flat), `groups?` (grouped), `emptyMessage?`.
+
+---
+
+#### `CardWithHeader`
+
+**Source:** `layout/cards/03-card-with-header.jsx`
+
+Card with `divide-y` separating header band from body.
+
+```tsx
+// App UI pattern (translated):
+<div className="divide-y divide-border overflow-hidden rounded-lg bg-card shadow-sm dark:shadow-none dark:inset-ring dark:inset-ring-border">
+  <div className="px-4 py-5 sm:px-6">{header}</div>
+  <div className="px-4 py-5 sm:p-6">{children}</div>
+</div>
+```
+
+Props: `header` (ReactNode), `children`, `className?`.
+
+---
+
+#### `DescriptionList`
+
+**Source:** `data-display/description-lists/01-left-aligned.jsx`
+
+`<dl>` with `divide-y divide-border` rows. Each item is a 3-column grid (label | value spanning 2 cols).
+
+```tsx
+// Row pattern (translated):
+<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+  <dt className="text-sm/6 font-medium text-foreground">{label}</dt>
+  <dd className="mt-1 text-sm/6 text-muted-foreground sm:col-span-2 sm:mt-0">{value}</dd>
+</div>
+```
+
+Props: `title?`, `description?`, `items: Array<{ label, value: ReactNode }>`.
+
+---
+
+#### `EmptyState`
+
+**Source:** `feedback/empty-states/01-simple.jsx`
+
+Centered icon + title + description + optional action button.
+
+Key pattern (translated):
+- Icon: `mx-auto size-12 text-muted-foreground` (pass a Lucide icon component)
+- Title: `mt-2 text-sm font-semibold text-foreground`
+- Description: `mt-1 text-sm text-muted-foreground`
+- Action: `bg-primary` button
+
+Props: `icon?` (LucideIcon), `title`, `description?`, `action?: { label, onClick }`.
+
+---
+
+### Contract for all blocks
+
+- TypeScript `interface Props` with JSDoc on each prop
+- One-line JSDoc at file top: what it is, when NOT to use
+- Zero raw color classes — only semantic tokens (see Translation guide above)
+- Co-located `.stories.tsx`: default story + every variant
 
 ### Barrel
 
@@ -220,15 +415,18 @@ All block stories render. No TypeScript errors.
 
 ## Phase 5 — Cashflow validation page
 
-Create `client/src/pages/Cashflow.tsx` as a proof that the block catalogue covers the App UI patterns.
+Create `client/src/pages/Cashflow.tsx` as proof that the block catalogue covers App UI patterns.
 
-Source to replicate: the Cashflow block shared in the conversation history — stats grid, recent activity table with date grouping, recent clients card grid.
+**Compose using:**
+- `StatsGrid` + `Stat` — revenue, overdue, outstanding, expenses (variant `"gap"`)
+- `SecondaryNav` — "Last 7 days | Last 30 days | All-time" + "+ New invoice" trailing action
+- `DataTable` with `groups` — recent activity grouped by date
+- `CardWithHeader` grid — recent clients cards
 
 **Acceptance:**
 
 - Zero `className` with raw color/bg classes
 - Composes only from `@/components/ds` and `@/components/catalyst`
-- Visual output closely matches the Tailwind Plus Cashflow reference
 
 Add route to `App.tsx` under `/cashflow`.
 
@@ -239,7 +437,7 @@ pnpm check
 pnpm dev
 ```
 
-Smoke-check route in browser. If anything requires raw classes, the missing block is a gap — add to Phase 4 and loop.
+Smoke-check in browser. Any raw class needed = missing block → add to Phase 4 and loop.
 
 ---
 
@@ -253,7 +451,7 @@ Rewrite each page using the new DS:
 - `Messages.tsx`
 - `Settings.tsx`
 
-Per page: replace any remaining raw color classes, custom card markup, custom status badges, custom alert banners with blocks from the catalogue.
+Per page: replace raw color classes, custom card markup, custom status badges, custom alert banners with blocks from the catalogue.
 
 **Verify per page:**
 
@@ -310,7 +508,7 @@ grep -r "from \"@/components/ds/AlertBanner\"" client/src/
 
 **Create `design-system/CATALOG.md`:**
 
-- Table: Name | Kind (Primitive / Block) | Purpose | Source path
+- Table: Name | Kind (Primitive / Block) | Purpose | Source path | App UI source
 - Must include every entry in `ds/primitives/` and `ds/blocks/`
 
 **Delete `DESIGN_GUIDE.md`** — obsolete; replaced by `design-system/README.md` + Storybook.

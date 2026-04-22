@@ -137,9 +137,27 @@ Pages import the block. They never copy Tailwind Plus JSX directly.
 
 ---
 
+## Visual documentation
+
+Every primitive and block ships with a co-located `.stories.tsx` file (CSF3 format). Run Storybook to browse the full catalogue with live previews:
+
+```bash
+pnpm storybook   # http://localhost:6006
+```
+
+Stories convention:
+- One `default` story showing typical usage
+- Additional named exports for each variant or state
+- Dark mode forced via the `dark` decorator (matches the forced-dark app theme)
+
+New blocks must include stories before the PR merges.
+
+---
+
 ## References
 
 - `client/src/index.css` — token definitions
 - `client/src/components/catalyst/` — interactive primitives (Tailwind Plus kit)
 - `client/src/components/ds/` — structural primitives and blocks (ours)
+- `design-system/CATALOG.md` — full block and primitive catalogue with source references
 - [Tailwind Plus UI Blocks](https://tailwindcss.com/plus/ui-blocks/application-ui) — source material for new blocks

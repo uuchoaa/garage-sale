@@ -3,7 +3,7 @@
 ## Stack
 - React 19, TypeScript, Tailwind v4, Vite
 - Catalyst UI (`client/src/components/catalyst/`) — low-level form/interactive primitives
-- DS primitives (`client/src/components/ds/`) — layout and status components
+- DS primitives and blocks (`client/src/components/ds/`) — layout, surfaces, and recurring UI patterns
 - Tokens defined in `client/src/index.css` via `@theme inline` + `:root` / `.dark`
 - Routing: wouter. No react-router.
 - Dark mode forced via `ThemeProvider defaultTheme="dark"` in `App.tsx`
@@ -57,30 +57,50 @@ Never use raw Tailwind color classes for text. Use semantic tokens:
 | Subtle fill    | `bg-muted`      |
 | Border         | `border-border` |
 
-### Status indicators — use DS component
+### Status indicators — use DS block
 
 ```tsx
-import { StatusBadge } from "@/components/ds"
+import { StatusPill } from "@/components/ds"
 
-<StatusBadge status="connected" />
-<StatusBadge status="needs_auth" />
-<StatusBadge status="not_connected" />
+<StatusPill variant="success">Conectado</StatusPill>
+<StatusPill variant="danger">Reautenticar</StatusPill>
+<StatusPill variant="neutral">Não conectado</StatusPill>
 ```
 
-Available statuses: `connected` | `needs_auth` | `suspended` | `quota_exceeded` |
-`not_connected` | `unanswered` | `active` | `pickup_pending`
+Variants: `success` | `danger` | `warning` | `neutral`
 
-To add a new status, register it in `StatusBadge.tsx → statusRegistry`.
+Map domain statuses to these four variants in the consuming page (not inside StatusPill).
 
-### Alerts and banners — use DS component
+### Alerts and banners — use DS block
 
 ```tsx
-import { AlertBanner } from "@/components/ds"
+import { Alert } from "@/components/ds"
 
-<AlertBanner variant="danger">Sua autenticação expirou.</AlertBanner>
-<AlertBanner variant="success">Configurações salvas.</AlertBanner>
-<AlertBanner variant="muted">Conecte este canal para começar.</AlertBanner>
+<Alert variant="danger">Sua autenticação expirou.</Alert>
+<Alert variant="success">Configurações salvas.</Alert>
+<Alert variant="muted">Conecte este canal para começar.</Alert>
 ```
+
+Variants: `success` | `danger` | `warning` | `muted`
+
+## DS Block Catalogue
+
+Every primitive and block has a `.stories.tsx`. Consult Storybook (`pnpm storybook`) for visuals. See `design-system/CATALOG.md` for the full table.
+
+| Export | Kind | When to use |
+|--------|------|-------------|
+| `Page` | Primitive | Every page root — provides padding and layout shell |
+| `Grid` | Primitive | CSS grid with semantic gap / divide / border options |
+| `Card` | Block | Simple surface container (no required header) |
+| `Alert` | Block | Inline status messages |
+| `StatusPill` | Block | Rounded status badge (4 variants) |
+| `PageHeading` | Block | Title + description + actions slot |
+| `SecondaryNav` | Block | Underline tab navigation with mobile fallback |
+| `StatsGrid` | Block | KPI grid (`"gap"` or `"card"` variant) |
+| `DataTable` | Block | Generic typed table with optional row grouping |
+| `CardWithHeader` | Block | Card with divide-y header band |
+| `DescriptionList` | Block | Label/value list with divide-y rows |
+| `EmptyState` | Block | Centered empty-state with icon and action |
 
 ## ❌ Forbidden in page files
 
@@ -91,7 +111,7 @@ import { AlertBanner } from "@/components/ds"
 - `bg-white` / `bg-zinc-900` for surfaces
   → Use `bg-card` or `bg-background`
 - `bg-green-*` / `bg-red-*` for inline status backgrounds
-  → Use `<AlertBanner>` or `bg-status-*-subtle`
+  → Use `<Alert>` or `bg-status-*-subtle`
 - Bare `<div className="flex ...">` or `<div className="grid ...">` for page structure
   → Use `<Grid>` or `<Page>`
 
@@ -115,7 +135,8 @@ Lucide only (`lucide-react`). Never heroicons or emoji as decorative elements.
 
 ## Reference files
 
-- `DESIGN_GUIDE.md` — full visual language (palette, spacing, motion, anti-patterns)
+- `design-system/README.md` — vocabulary, layering rules, Storybook convention
+- `design-system/CATALOG.md` — full block/primitive table with source references
 - `client/src/index.css` — all token definitions
-- `client/src/components/ds/` — DS primitives source
+- `client/src/components/ds/` — DS primitives and blocks source
 - `client/src/components/catalyst/` — Catalyst UI source

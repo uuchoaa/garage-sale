@@ -1,5 +1,5 @@
 import { Button } from "@/components/catalyst/button";
-import { Page, Card, AlertBanner } from "@/components/ds";
+import { Page, Card } from "@/components/ds";
 import { CheckCircle2, Clock, DollarSign, Package } from "lucide-react";
 import { useState } from "react";
 

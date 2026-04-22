@@ -1,9 +1,7 @@
 import { Button } from "@/components/catalyst/button";
 import { Input, InputGroup } from "@/components/catalyst/input";
 import { Avatar } from "@/components/catalyst/avatar";
-import { Page } from "@/components/ds";
-import { StatusBadge } from "@/components/ds";
-import { AlertBanner } from "@/components/ds";
+import { Page, StatusPill, Alert } from "@/components/ds";
 import { useState } from "react";
 import { Search } from "lucide-react";
 
@@ -14,11 +12,33 @@ interface Message {
   timestamp: string;
 }
 
+const AVATAR_COLORS = [
+  "bg-primary",
+  "bg-primary/70",
+  "bg-primary/50",
+] as const
+
+function avatarColor(id: number): string {
+  return AVATAR_COLORS[id % AVATAR_COLORS.length]
+}
+
+const conversationPillVariant: Record<string, "success" | "danger" | "warning" | "neutral"> = {
+  unanswered: "warning",
+  active: "success",
+  pickup_pending: "neutral",
+  archived: "neutral",
+}
+const conversationPillLabel: Record<string, string> = {
+  unanswered: "Sem resposta",
+  active: "Ativo",
+  pickup_pending: "Retirada pendente",
+  archived: "Arquivado",
+}
+
 interface Conversation {
   id: number;
   buyerName: string;
   buyerInitials: string;
-  buyerColor: string;
   itemTitle: string;
   status: "unanswered" | "active" | "pickup_pending" | "archived";
   lastMessage: string;
@@ -32,7 +52,6 @@ const mockConversations: Conversation[] = [
     id: 1,
     buyerName: "João Silva",
     buyerInitials: "JS",
-    buyerColor: "bg-blue-500",
     itemTitle: "Sofá Cinza",
     status: "active",
     lastMessage: "Posso vir buscar amanhã?",
@@ -49,7 +68,6 @@ const mockConversations: Conversation[] = [
     id: 2,
     buyerName: "Maria Santos",
     buyerInitials: "MS",
-    buyerColor: "bg-green-500",
     itemTitle: "Guarda-roupa",
     status: "pickup_pending",
     lastMessage: "Confirmado para sábado às 14h",
@@ -67,7 +85,6 @@ const mockConversations: Conversation[] = [
     id: 3,
     buyerName: "Pedro Costa",
     buyerInitials: "PC",
-    buyerColor: "bg-purple-500",
     itemTitle: "Mesa de Café",
     status: "unanswered",
     lastMessage: "Qual é a altura da mesa?",
@@ -122,13 +139,13 @@ export default function Messages() {
                   }`}
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <Avatar initials={conv.buyerInitials} className={`size-8 ${conv.buyerColor} text-white`} />
+                    <Avatar initials={conv.buyerInitials} className={`size-8 ${avatarColor(conv.id)} text-primary-foreground`} />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium text-foreground truncate">{conv.buyerName}</p>
                       <p className="text-xs text-muted-foreground truncate">{conv.itemTitle}</p>
                     </div>
                     <div className="flex-shrink-0">
-                      <StatusBadge status={conv.status} size={14} />
+                      <StatusPill variant={conversationPillVariant[conv.status]}>{conversationPillLabel[conv.status]}</StatusPill>
                     </div>
                   </div>
 
@@ -137,7 +154,7 @@ export default function Messages() {
 
                   {conv.inconsistencyNote && (
                     <div className="mt-2">
-                      <AlertBanner variant="danger">{conv.inconsistencyNote}</AlertBanner>
+                      <Alert variant="danger">{conv.inconsistencyNote}</Alert>
                     </div>
                   )}
                 </button>
@@ -153,7 +170,7 @@ export default function Messages() {
               <div className="flex items-center gap-3">
                 <Avatar
                   initials={selectedConversation.buyerInitials}
-                  className={`size-10 ${selectedConversation.buyerColor} text-white`}
+                  className={`size-10 ${avatarColor(selectedConversation.id)} text-primary-foreground`}
                 />
                 <div>
                   <p className="text-sm font-medium text-foreground">{selectedConversation.buyerName}</p>
@@ -161,7 +178,7 @@ export default function Messages() {
                 </div>
               </div>
 
-              <StatusBadge status={selectedConversation.status} />
+              <StatusPill variant={conversationPillVariant[selectedConversation.status]}>{conversationPillLabel[selectedConversation.status]}</StatusPill>
             </div>
 
             <div className="flex-1 overflow-auto px-6 py-4 space-y-3">
