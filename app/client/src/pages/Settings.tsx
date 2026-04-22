@@ -1,6 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
+import { Button } from "@/components/catalyst/button";
+import { Input } from "@/components/catalyst/input";
+import { Field, FieldGroup, Label, Description } from "@/components/catalyst/fieldset";
+import { Select } from "@/components/catalyst/select";
+import { Checkbox, CheckboxField } from "@/components/catalyst/checkbox";
 import { useState } from "react";
 import { Save, AlertCircle, CheckCircle2 } from "lucide-react";
 
@@ -23,154 +25,126 @@ export default function Settings() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b border-border px-8 py-6">
-        <h1 className="text-2xl font-semibold text-foreground mb-2">Configurações</h1>
-        <p className="text-xs text-muted-foreground">
+    <div>
+      <div className="mb-8">
+        <h1 className="text-2xl font-semibold mb-2">Configurações</h1>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">
           Gerencie suas preferências e informações pessoais.
         </p>
       </div>
 
-      {/* Content */}
-      <div className="p-8 max-w-2xl space-y-6">
-        {/* Success Message */}
+      <div className="max-w-2xl space-y-6">
         {saved && (
-          <div className="flex items-center gap-2 p-3 bg-accent/10 border border-accent rounded-sm">
-            <CheckCircle2 size={16} className="text-accent flex-shrink-0" />
-            <p className="text-xs text-accent">Configurações salvas com sucesso.</p>
+          <div className="flex items-center gap-2 p-3 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg">
+            <CheckCircle2 size={16} className="text-green-600 flex-shrink-0" />
+            <p className="text-sm text-green-700 dark:text-green-400">Configurações salvas com sucesso.</p>
           </div>
         )}
 
-        {/* Profile Section */}
-        <Card className="border border-border rounded-sm p-6">
-          <h2 className="text-sm font-semibold text-foreground mb-4">Perfil</h2>
-
-          <div className="space-y-4">
-            <div>
-              <label className="block text-xs font-medium text-foreground mb-1">Seu nome</label>
+        {/* Perfil */}
+        <div className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-6 bg-white dark:bg-zinc-900 shadow-xs">
+          <h2 className="text-sm font-semibold mb-6">Perfil</h2>
+          <FieldGroup>
+            <Field>
+              <Label>Seu nome</Label>
               <Input
                 type="text"
                 value={settings.sellerName}
                 onChange={(e) => setSettings({ ...settings, sellerName: e.target.value })}
-                className="w-full text-xs border border-border rounded-sm px-3 py-2"
               />
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-foreground mb-1">Telefone</label>
+            </Field>
+            <Field>
+              <Label>Telefone</Label>
               <Input
                 type="tel"
                 value={settings.phone}
                 onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
-                className="w-full text-xs border border-border rounded-sm px-3 py-2"
               />
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-foreground mb-1">Localização</label>
+            </Field>
+            <Field>
+              <Label>Localização</Label>
               <Input
                 type="text"
                 value={settings.location}
                 onChange={(e) => setSettings({ ...settings, location: e.target.value })}
-                className="w-full text-xs border border-border rounded-sm px-3 py-2"
               />
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-foreground mb-1">Data da mudança</label>
+            </Field>
+            <Field>
+              <Label>Data da mudança</Label>
               <Input
                 type="date"
                 value={settings.moveDate}
                 onChange={(e) => setSettings({ ...settings, moveDate: e.target.value })}
-                className="w-full text-xs border border-border rounded-sm px-3 py-2"
               />
-            </div>
-          </div>
-        </Card>
+            </Field>
+          </FieldGroup>
+        </div>
 
-        {/* Selling Preferences */}
-        <Card className="border border-border rounded-sm p-6">
-          <h2 className="text-sm font-semibold text-foreground mb-4">Preferências de venda</h2>
-
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs font-medium text-foreground">Aceitar ofertas</p>
-                <p className="text-xs text-muted-foreground mt-1">Compradores podem fazer contrapropostas</p>
-              </div>
-              <input
-                type="checkbox"
+        {/* Preferências de venda */}
+        <div className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-6 bg-white dark:bg-zinc-900 shadow-xs">
+          <h2 className="text-sm font-semibold mb-6">Preferências de venda</h2>
+          <div className="space-y-6">
+            <CheckboxField>
+              <Checkbox
                 checked={settings.acceptOffers}
-                onChange={(e) => setSettings({ ...settings, acceptOffers: e.target.checked })}
-                className="cursor-pointer"
+                onChange={(checked) => setSettings({ ...settings, acceptOffers: checked })}
               />
-            </div>
+              <Label>Aceitar ofertas</Label>
+              <Description>Compradores podem fazer contrapropostas</Description>
+            </CheckboxField>
 
-            <div className="border-t border-border pt-4">
-              <label className="block text-xs font-medium text-foreground mb-1">
-                Arquivar itens após (dias sem interesse)
-              </label>
+            <Field>
+              <Label>Arquivar itens após (dias sem interesse)</Label>
+              <Description>
+                Itens sem conversas serão marcados como "pausa" após este período.
+              </Description>
               <Input
                 type="number"
                 value={settings.autoArchiveAfterDays}
                 onChange={(e) =>
                   setSettings({ ...settings, autoArchiveAfterDays: Number(e.target.value) })
                 }
-                className="w-full text-xs border border-border rounded-sm px-3 py-2"
               />
-              <p className="text-xs text-muted-foreground mt-1">
-                Itens sem conversas serão marcados como "pausa" após este período.
-              </p>
-            </div>
+            </Field>
 
-            <div className="border-t border-border pt-4">
-              <label className="block text-xs font-medium text-foreground mb-1">Prioridade padrão</label>
-              <select
+            <Field>
+              <Label>Prioridade padrão</Label>
+              <Select
                 value={settings.defaultPriority}
                 onChange={(e) => setSettings({ ...settings, defaultPriority: e.target.value })}
-                className="w-full text-xs border border-border rounded-sm px-3 py-2 bg-background text-foreground cursor-pointer"
               >
                 <option value="high">Alta</option>
                 <option value="medium">Média</option>
                 <option value="low">Baixa</option>
-              </select>
-            </div>
+              </Select>
+            </Field>
           </div>
-        </Card>
+        </div>
 
-        {/* Data & Privacy */}
-        <Card className="border border-border rounded-sm p-6">
-          <h2 className="text-sm font-semibold text-foreground mb-4">Dados e privacidade</h2>
-
+        {/* Dados e privacidade */}
+        <div className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-6 bg-white dark:bg-zinc-900 shadow-xs">
+          <h2 className="text-sm font-semibold mb-6">Dados e privacidade</h2>
           <div className="space-y-3">
-            <div className="flex items-start gap-2 p-3 bg-muted/10 border border-muted/20 rounded-sm">
-              <AlertCircle size={14} className="text-muted-foreground flex-shrink-0 mt-0.5" />
-              <p className="text-xs text-muted-foreground">
+            <div className="flex items-start gap-2 p-3 bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg">
+              <AlertCircle size={14} className="text-zinc-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">
                 Seus dados são armazenados localmente no navegador. Nada é enviado para servidores externos.
               </p>
             </div>
-
-            <Button className="w-full">
+            <Button outline className="w-full">
               Exportar dados
             </Button>
-
-            <Button variant="destructive" className="w-full">
+            <Button color="red" className="w-full">
               Limpar tudo
             </Button>
           </div>
-        </Card>
+        </div>
 
-        {/* Save Button */}
-        <div className="flex gap-2">
-            <Button
-              onClick={handleSave}
-              variant="primary"
-              className="flex-1 flex items-center justify-center gap-2"
-            >
-              <Save size={14} />
-              Salvar configurações
-            </Button>
+        <div>
+          <Button onClick={handleSave} color="dark" className="w-full">
+            <Save data-slot="icon" />
+            Salvar configurações
+          </Button>
         </div>
       </div>
     </div>

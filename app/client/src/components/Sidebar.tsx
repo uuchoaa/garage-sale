@@ -1,5 +1,14 @@
 import { useLocation } from "wouter";
 import { LayoutDashboard, Package, Radio, MessageSquare, Settings, LogOut } from "lucide-react";
+import {
+  Sidebar as CatalystSidebar,
+  SidebarBody,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarItem,
+  SidebarLabel,
+  SidebarSection,
+} from "@/components/catalyst/sidebar";
 
 const navItems = [
   { label: "Painel", href: "/", icon: LayoutDashboard },
@@ -10,45 +19,39 @@ const navItems = [
 ];
 
 export default function Sidebar() {
-  const [location, setLocation] = useLocation();
+  const [location] = useLocation();
 
   return (
-    <aside className="w-60 bg-sidebar text-sidebar-foreground border-r border-sidebar-border flex flex-col">
-      {/* Logo / Header */}
-      <div className="px-6 py-6 border-b border-sidebar-border">
-        <h1 className="text-lg font-semibold tracking-tight">Garage Sale</h1>
-        <p className="text-xs text-sidebar-foreground/60 mt-1">Pinheiros, SP</p>
-      </div>
+    <CatalystSidebar>
+      <SidebarHeader>
+        <div className="px-2 py-2">
+          <h1 className="text-base font-semibold tracking-tight">Garage Sale</h1>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Pinheiros, SP</p>
+        </div>
+      </SidebarHeader>
 
-      {/* Navigation */}
-      <nav className="flex-1 px-4 py-6 space-y-1">
-        {navItems.map((item) => {
-          const isActive = location === item.href;
-          const Icon = item.icon;
-          return (
-            <button
-              key={item.href}
-              onClick={() => setLocation(item.href)}
-              className={`w-full flex items-center gap-3 px-3 py-2 rounded-sm text-sm font-medium transition-colors duration-75 ${
-                isActive
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground/80 hover:bg-sidebar-border hover:text-sidebar-foreground"
-              }`}
-            >
-              <Icon size={18} />
-              <span>{item.label}</span>
-            </button>
-          );
-        })}
-      </nav>
+      <SidebarBody>
+        <SidebarSection>
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <SidebarItem key={item.href} href={item.href} current={location === item.href}>
+                <Icon data-slot="icon" />
+                <SidebarLabel>{item.label}</SidebarLabel>
+              </SidebarItem>
+            );
+          })}
+        </SidebarSection>
+      </SidebarBody>
 
-      {/* Footer */}
-      <div className="px-4 py-4 border-t border-sidebar-border">
-        <button className="w-full flex items-center gap-3 px-3 py-2 rounded-sm text-sm text-sidebar-foreground/60 hover:text-sidebar-foreground transition-colors duration-75">
-          <LogOut size={18} />
-          <span>Sair</span>
-        </button>
-      </div>
-    </aside>
+      <SidebarFooter>
+        <SidebarSection>
+          <SidebarItem>
+            <LogOut data-slot="icon" />
+            <SidebarLabel>Sair</SidebarLabel>
+          </SidebarItem>
+        </SidebarSection>
+      </SidebarFooter>
+    </CatalystSidebar>
   );
 }

@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Button } from "@/components/catalyst/button";
 import {
   AlertCircle,
   CheckCircle2,
@@ -79,64 +78,56 @@ const channels: Channel[] = [
 const statusConfig = {
   connected: {
     label: "Conectado",
-    color: "text-accent",
-    bgColor: "bg-accent/10",
+    color: "text-green-600 dark:text-green-400",
     icon: <CheckCircle2 size={16} />,
   },
   needs_auth: {
     label: "Reautenticar",
-    color: "text-destructive",
-    bgColor: "bg-destructive/10",
+    color: "text-red-600 dark:text-red-400",
     icon: <AlertTriangle size={16} />,
   },
   suspended: {
     label: "Suspenso",
-    color: "text-destructive",
-    bgColor: "bg-destructive/10",
+    color: "text-red-600 dark:text-red-400",
     icon: <AlertCircle size={16} />,
   },
   quota_exceeded: {
     label: "Cota excedida",
-    color: "text-destructive",
-    bgColor: "bg-destructive/10",
+    color: "text-red-600 dark:text-red-400",
     icon: <AlertCircle size={16} />,
   },
   not_connected: {
     label: "Não conectado",
-    color: "text-muted-foreground",
-    bgColor: "bg-muted/10",
+    color: "text-zinc-500 dark:text-zinc-400",
     icon: <Link2 size={16} />,
   },
 };
 
 export default function Channels() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b border-border px-8 py-6">
-        <h1 className="text-2xl font-semibold text-foreground mb-2">Canais</h1>
-        <p className="text-xs text-muted-foreground">
+    <div>
+      <div className="mb-8">
+        <h1 className="text-2xl font-semibold mb-2">Canais</h1>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">
           Gerencie suas conexões e veja o status de cada canal de publicação.
         </p>
       </div>
 
-      {/* Channels Grid */}
-      <div className="p-8 space-y-4">
+      <div className="space-y-4">
         {channels.map((channel) => {
           const config = statusConfig[channel.status];
           const isConnected = channel.status === "connected";
 
           return (
-            <Card
+            <div
               key={channel.id}
-              className="border border-border rounded-sm p-6"
+              className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-6 bg-white dark:bg-zinc-900 shadow-xs"
             >
-              {/* Header */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="text-foreground">{channel.icon}</div>
+                  <div className="text-zinc-950 dark:text-white">{channel.icon}</div>
                   <div>
-                    <h3 className="text-sm font-semibold text-foreground">{channel.name}</h3>
+                    <h3 className="text-sm font-semibold text-zinc-950 dark:text-white">{channel.name}</h3>
                     <div className={`flex items-center gap-1.5 mt-1 text-xs ${config.color}`}>
                       {config.icon}
                       <span>{config.label}</span>
@@ -147,56 +138,46 @@ export default function Channels() {
                 <div className="flex gap-2">
                   {isConnected ? (
                     <>
-                      <Button>
-                        Configurar
-                      </Button>
-                      <Button>
-                        Desconectar
-                      </Button>
+                      <Button outline>Configurar</Button>
+                      <Button outline>Desconectar</Button>
                     </>
                   ) : (
-                    <Button>
-                      Conectar
-                    </Button>
+                    <Button>Conectar</Button>
                   )}
                 </div>
               </div>
 
-              {/* Stats */}
               {isConnected && (
-                <div className="grid grid-cols-4 gap-4 mb-4 pb-4 border-b border-border">
+                <div className="grid grid-cols-4 gap-4 mb-4 pb-4 border-b border-zinc-950/5 dark:border-white/5">
                   <div>
-                    <p className="text-xs text-muted-foreground mb-1">Itens publicados</p>
-                    <p className="text-sm font-medium text-foreground">{channel.postedItems}</p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Itens publicados</p>
+                    <p className="text-sm font-medium text-zinc-950 dark:text-white">{channel.postedItems}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground mb-1">Conversas ativas</p>
-                    <p className="text-sm font-medium text-foreground">{channel.activeConversations}</p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Conversas ativas</p>
+                    <p className="text-sm font-medium text-zinc-950 dark:text-white">{channel.activeConversations}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground mb-1">Última atividade</p>
-                    <p className="text-sm font-medium text-foreground">{channel.lastActivity}</p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Última atividade</p>
+                    <p className="text-sm font-medium text-zinc-950 dark:text-white">{channel.lastActivity}</p>
                   </div>
                   {channel.contactCount && (
                     <div>
-                      <p className="text-xs text-muted-foreground mb-1">Contatos</p>
-                      <p className="text-sm font-medium text-foreground">{channel.contactCount}</p>
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Contatos</p>
+                      <p className="text-sm font-medium text-zinc-950 dark:text-white">{channel.contactCount}</p>
                     </div>
                   )}
                 </div>
               )}
 
-              {/* Channel-specific info */}
               {channel.id === "whatsapp" && channel.groups && (
                 <div>
-                  <p className="text-xs font-medium text-foreground mb-2">Grupos para divulgação</p>
+                  <p className="text-xs font-medium text-zinc-950 dark:text-white mb-2">Grupos para divulgação</p>
                   <div className="space-y-1">
                     {channel.groups.map((group) => (
                       <div key={group} className="flex items-center justify-between text-xs">
-                        <span className="text-foreground">• {group}</span>
-                        <Button size="sm">
-                          Enviar
-                        </Button>
+                        <span className="text-zinc-950 dark:text-white">• {group}</span>
+                        <Button plain>Enviar</Button>
                       </div>
                     ))}
                   </div>
@@ -205,34 +186,34 @@ export default function Channels() {
 
               {channel.id === "olx" && channel.quotaInfo && (
                 <div>
-                  <p className="text-xs font-medium text-foreground mb-2">Cota de anúncios</p>
+                  <p className="text-xs font-medium text-zinc-950 dark:text-white mb-2">Cota de anúncios</p>
                   <div className="flex items-center gap-2">
-                    <div className="flex-1 h-2 bg-secondary rounded-full overflow-hidden">
-                      <div className="h-full w-3/5 bg-accent" />
+                    <div className="flex-1 h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+                      <div className="h-full w-3/5 bg-zinc-900 dark:bg-white rounded-full" />
                     </div>
-                    <span className="text-xs text-muted-foreground">{channel.quotaInfo}</span>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">{channel.quotaInfo}</span>
                   </div>
                 </div>
               )}
 
               {channel.status === "needs_auth" && (
-                <div className="flex items-center gap-2 p-3 bg-destructive/10 border border-destructive/20 rounded-sm">
-                  <AlertTriangle size={14} className="text-destructive flex-shrink-0" />
-                  <p className="text-xs text-destructive">
+                <div className="flex items-center gap-2 p-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg">
+                  <AlertTriangle size={14} className="text-red-600 dark:text-red-400 flex-shrink-0" />
+                  <p className="text-xs text-red-600 dark:text-red-400">
                     Sua autenticação expirou. Reconecte para continuar publicando.
                   </p>
                 </div>
               )}
 
               {channel.status === "not_connected" && (
-                <div className="flex items-center gap-2 p-3 bg-muted/10 border border-muted/20 rounded-sm">
-                  <Clock size={14} className="text-muted-foreground flex-shrink-0" />
-                  <p className="text-xs text-muted-foreground">
+                <div className="flex items-center gap-2 p-3 bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg">
+                  <Clock size={14} className="text-zinc-500 flex-shrink-0" />
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
                     Conecte este canal para começar a publicar.
                   </p>
                 </div>
               )}
-            </Card>
+            </div>
           );
         })}
       </div>

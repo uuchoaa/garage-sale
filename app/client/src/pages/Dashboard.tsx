@@ -1,9 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Button } from "@/components/catalyst/button";
 import { AlertCircle, CheckCircle2, Clock, DollarSign, Package } from "lucide-react";
 import { useState } from "react";
 
-// Mock data for demonstration
 const mockUrgentQueue = [
   {
     id: 1,
@@ -53,7 +51,6 @@ export default function Dashboard() {
   const daysUntilMove = 12;
   const itemsSold = 8;
   const totalItems = 15;
-  const itemsReserved = 3;
   const totalReceived = 3850;
   const totalAgreed = 6200;
 
@@ -64,74 +61,67 @@ export default function Dashboard() {
   const visibleQueue = mockUrgentQueue.filter((item) => !completedActions.includes(item.id));
 
   return (
-    <div className="min-h-screen bg-background">
+    <div>
       {/* Header */}
-      <div className="border-b border-border px-8 py-6">
-        <h1 className="text-2xl font-semibold text-foreground mb-4">Painel</h1>
+      <div className="mb-8">
+        <h1 className="text-2xl font-semibold mb-4">Painel</h1>
 
-        {/* Summary Stats */}
-        <div className="flex items-center justify-between gap-8 mb-6">
+        <div className="flex flex-wrap items-center gap-6 mb-4">
           <div className="flex items-center gap-2">
-            <Clock size={16} className="text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">{daysUntilMove}</span> dias até a mudança
+            <Clock size={16} className="text-zinc-400" />
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">
+              <span className="font-medium text-zinc-950 dark:text-white">{daysUntilMove}</span> dias até a mudança
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <Package size={16} className="text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">{itemsSold}</span>/{totalItems} itens vendidos
+            <Package size={16} className="text-zinc-400" />
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">
+              <span className="font-medium text-zinc-950 dark:text-white">{itemsSold}</span>/{totalItems} itens vendidos
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <DollarSign size={16} className="text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">R$ {totalReceived.toLocaleString("pt-BR")}</span> recebido
+            <DollarSign size={16} className="text-zinc-400" />
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">
+              <span className="font-medium text-zinc-950 dark:text-white">R$ {totalReceived.toLocaleString("pt-BR")}</span> recebido
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <AlertCircle size={16} className="text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">R$ {totalAgreed.toLocaleString("pt-BR")}</span> acordado
+            <AlertCircle size={16} className="text-zinc-400" />
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">
+              <span className="font-medium text-zinc-950 dark:text-white">R$ {totalAgreed.toLocaleString("pt-BR")}</span> acordado
             </span>
           </div>
         </div>
 
-        {/* Progress Bar */}
-        <div className="w-full h-1 bg-secondary rounded-full overflow-hidden">
+        <div className="w-full h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
           <div
-            className="h-full bg-accent transition-all duration-300"
+            className="h-full bg-zinc-900 dark:bg-white rounded-full transition-all duration-300"
             style={{ width: `${(itemsSold / totalItems) * 100}%` }}
           />
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="p-8 space-y-8">
+      <div className="space-y-8">
         {/* Pra fazer agora */}
         <section>
-          <h2 className="text-sm font-semibold text-foreground mb-4 tracking-tight">Pra fazer agora</h2>
+          <h2 className="text-sm font-semibold mb-4">Pra fazer agora</h2>
 
           {visibleQueue.length === 0 ? (
-            <div className="border border-border rounded-sm p-8 text-center">
-              <CheckCircle2 size={32} className="mx-auto mb-3 text-accent" />
-              <p className="text-sm text-muted-foreground">Nada urgente agora</p>
+            <div className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-8 text-center bg-white dark:bg-zinc-900">
+              <CheckCircle2 size={32} className="mx-auto mb-3 text-green-500" />
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">Nada urgente agora</p>
             </div>
           ) : (
             <div className="space-y-2">
               {visibleQueue.map((item) => (
                 <div
                   key={item.id}
-                  className="border border-border rounded-sm p-4 flex items-center justify-between"
+                  className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-4 flex items-center justify-between bg-white dark:bg-zinc-900"
                 >
-                  <div className="flex-1">
-                    <p className="text-sm text-foreground">{item.description}</p>
-                  </div>
-              <Button
-                onClick={() => handleActionComplete(item.id)}
-              >
-                {item.action}
-              </Button>
+                  <p className="text-sm text-zinc-950 dark:text-white flex-1">{item.description}</p>
+                  <Button onClick={() => handleActionComplete(item.id)} outline>
+                    {item.action}
+                  </Button>
                 </div>
               ))}
             </div>
@@ -140,33 +130,33 @@ export default function Dashboard() {
 
         {/* Hoje */}
         <section>
-          <h2 className="text-sm font-semibold text-foreground mb-4 tracking-tight">Hoje</h2>
+          <h2 className="text-sm font-semibold mb-4">Hoje</h2>
 
           {mockTodayPickups.length === 0 ? (
-            <div className="border border-border rounded-sm p-8 text-center">
-              <p className="text-sm text-muted-foreground">Nenhuma retirada agendada para hoje</p>
+            <div className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-8 text-center bg-white dark:bg-zinc-900">
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">Nenhuma retirada agendada para hoje</p>
             </div>
           ) : (
             <div className="space-y-3">
               {mockTodayPickups.map((pickup) => (
-                <Card
+                <div
                   key={pickup.id}
-                  className="border border-border rounded-sm p-4"
+                  className="border border-zinc-950/5 dark:border-white/5 rounded-lg p-5 bg-white dark:bg-zinc-900 shadow-xs"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <p className="text-sm font-medium text-foreground">{pickup.buyer}</p>
-                      <p className="text-xs text-muted-foreground mt-1">{pickup.time}</p>
+                      <p className="text-sm font-medium text-zinc-950 dark:text-white">{pickup.buyer}</p>
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{pickup.time}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-medium text-foreground font-mono-data">
+                      <p className="text-sm font-medium text-zinc-950 dark:text-white font-mono">
                         R$ {pickup.total.toLocaleString("pt-BR")}
                       </p>
                       <span
-                        className={`inline-block text-xs px-2 py-1 rounded-sm mt-1 ${
+                        className={`inline-block text-xs px-2 py-0.5 rounded mt-1 ${
                           pickup.status === "confirmed"
-                            ? "border border-accent text-accent"
-                            : "border border-muted-foreground text-muted-foreground"
+                            ? "bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400"
+                            : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
                         }`}
                       >
                         {pickup.status === "confirmed" ? "Confirmado" : "Pendente"}
@@ -174,9 +164,9 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  <div className="mb-3">
-                    <p className="text-xs text-muted-foreground mb-1">Itens:</p>
-                    <ul className="text-xs text-foreground space-y-0.5">
+                  <div className="mb-4">
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Itens:</p>
+                    <ul className="text-sm text-zinc-950 dark:text-white space-y-0.5">
                       {pickup.items.map((item, idx) => (
                         <li key={idx}>• {item}</li>
                       ))}
@@ -184,14 +174,10 @@ export default function Dashboard() {
                   </div>
 
                   <div className="flex gap-2">
-                    <Button className="flex-1">
-                      Marcar retirado
-                    </Button>
-                    <Button variant="outline" className="flex-1">
-                      Reagendar
-                    </Button>
+                    <Button className="flex-1">Marcar retirado</Button>
+                    <Button outline className="flex-1">Reagendar</Button>
                   </div>
-                </Card>
+                </div>
               ))}
             </div>
           )}
