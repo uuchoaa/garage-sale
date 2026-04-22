@@ -1,6 +1,8 @@
-# garage-sale
+# wise-ui
 
-A personal command-center tool for running a one-time moving sale across WhatsApp, OLX, Instagram, Mercado Livre, and Facebook Marketplace. Single user, temporary, stops existing when the move is done.
+Vue-based UI project in the **wise** tooling family. The seed product driving this repo is **garage-sale** — a personal command-center for a one-time moving sale across WhatsApp, OLX, Instagram, Mercado Livre, and Facebook Marketplace. Single user, temporary, stops existing when the move is done.
+
+Repo identity: `wise-ui`. Product the UI is built for: `garage-sale` (still referred to as "GarageSale" throughout the briefing and visible UI copy).
 
 The full product spec — 7 screens, domain model, visual principles, definition of done — lives in [`docs/briefing.md`](docs/briefing.md). That document is the source of truth; this file only captures working conventions.
 
