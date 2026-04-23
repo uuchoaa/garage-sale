@@ -3,7 +3,7 @@ import {
   StackedShell,
   PageHeading,
   PageSection,
-  NavTabs,
+  FilterLinks,
   Button,
   StatGrid,
   StatusBadge,
@@ -27,7 +27,7 @@ import {
 } from 'wise-ui'
 import { EllipsisHorizontalIcon, PlusSmallIcon } from '@heroicons/vue/20/solid'
 
-type RangeTab = NavTabItem
+type RangeFilter = NavTabItem
 type Stat = { label: string; value: string; delta: string; tone: Tone }
 
 type ActivityStatus = 'paid' | 'overdue' | 'withdraw'
@@ -61,7 +61,7 @@ const nav: NavItem[] = [
 
 const user = { name: 'Tom Cook', avatar: '/avatars/tom.jpg' }
 
-const ranges: RangeTab[] = [
+const ranges: RangeFilter[] = [
   { label: 'Last 7 days', value: '7d', current: true },
   { label: 'Last 30 days', value: '30d' },
   { label: 'All-time', value: 'all' },
@@ -120,7 +120,7 @@ const statusTone: Record<ActivityStatus, Tone> = {
 
     <PageHeading title="Cashflow">
       <template #nav>
-        <NavTabs :items="ranges" />
+        <FilterLinks :items="ranges" />
       </template>
       <template #actions>
         <Button variant="primary" :icon="PlusSmallIcon">New invoice</Button>

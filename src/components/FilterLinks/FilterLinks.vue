@@ -1,0 +1,31 @@
+<script setup lang="ts">
+import type { NavTabItem } from '../../internal/nav'
+
+defineProps<{
+  items: NavTabItem[]
+  value?: string
+}>()
+
+defineEmits<{
+  (e: 'update:value', value: string): void
+}>()
+</script>
+
+<template>
+  <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium">
+    <button
+      v-for="item in items"
+      :key="item.value"
+      type="button"
+      :class="[
+        'transition-colors',
+        item.current || value === item.value
+          ? 'text-tone-accent-700'
+          : 'text-tone-neutral-500 hover:text-tone-neutral-700',
+      ]"
+      @click="$emit('update:value', item.value)"
+    >
+      {{ item.label }}
+    </button>
+  </nav>
+</template>
