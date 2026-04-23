@@ -45,7 +45,7 @@ defineProps<{
         </div>
       </div>
     </header>
-    <main class="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-8">
+    <main class="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-10 sm:px-6 lg:px-8">
       <slot />
     </main>
   </div>

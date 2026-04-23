@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <section class="flex flex-col gap-4">
+  <section class="flex flex-col gap-6">
     <div v-if="title || actionLabel" class="flex items-baseline justify-between">
       <h2 v-if="title" class="text-base font-semibold text-tone-neutral-700">{{ title }}</h2>
       <a

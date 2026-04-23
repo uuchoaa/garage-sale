@@ -21,7 +21,7 @@ const deltaClass: Record<Tone, string> = {
     <div
       v-for="stat in items"
       :key="stat.label"
-      class="relative isolate overflow-hidden px-6 py-5"
+      class="relative isolate overflow-hidden px-6 py-7"
     >
       <div
         aria-hidden="true"
@@ -32,7 +32,7 @@ const deltaClass: Record<Tone, string> = {
         <dt class="text-sm font-medium text-tone-neutral-500">{{ stat.label }}</dt>
         <span :class="['text-sm font-medium', deltaClass[stat.tone]]">{{ stat.delta }}</span>
       </div>
-      <dd class="mt-2 text-3xl font-semibold tracking-tight text-tone-neutral-700">{{ stat.value }}</dd>
+      <dd class="mt-3 text-3xl font-semibold tracking-tight text-tone-neutral-700">{{ stat.value }}</dd>
     </div>
   </dl>
 </template>

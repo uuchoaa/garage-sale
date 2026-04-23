@@ -20,19 +20,19 @@ defineSlots<{
           <th
             colspan="3"
             scope="colgroup"
-            class="px-4 py-2 text-left text-xs font-semibold text-tone-neutral-500"
+            class="px-4 py-3 text-left text-xs font-semibold text-tone-neutral-500"
           >
             <time :datetime="group.datetime">{{ group.label }}</time>
           </th>
         </tr>
         <tr v-for="entry in group.entries" :key="entry.id">
-          <td class="px-4 py-3 align-top">
+          <td class="px-4 py-5 align-top">
             <slot name="amount" :entry="entry" />
           </td>
-          <td class="px-4 py-3 align-top">
+          <td class="px-4 py-5 align-top">
             <slot name="meta" :entry="entry" />
           </td>
-          <td class="px-4 py-3 align-top text-right">
+          <td class="px-4 py-5 align-top text-right">
             <slot name="action" :entry="entry" />
           </td>
         </tr>
