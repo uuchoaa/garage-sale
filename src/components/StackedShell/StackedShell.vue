@@ -14,7 +14,7 @@ defineProps<{
 <template>
   <div class="min-h-screen bg-white">
     <header class="border-b border-tone-neutral-500/20 bg-white">
-      <div class="mx-auto flex h-16 max-w-7xl items-center gap-x-6 px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto flex h-16 max-w-7xl items-center gap-x-6 px-6 sm:px-8 lg:px-12">
         <div class="flex shrink-0 items-center">
           <slot name="brand" />
         </div>
