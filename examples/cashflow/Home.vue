@@ -174,7 +174,7 @@ const kindIcon: Record<ActivityKind, typeof ArrowDownCircleIcon> = {
 
         <template #action="{ entry }">
           <Stack gap="xs" align="end">
-            <Link :to="entry.href">View<VisuallyHidden> transaction</VisuallyHidden></Link>
+            <Link :to="entry.href">View transaction<VisuallyHidden> for invoice #{{ entry.ref }}</VisuallyHidden></Link>
             <Text tone="muted" size="xs">Invoice #{{ entry.ref }}</Text>
           </Stack>
         </template>
