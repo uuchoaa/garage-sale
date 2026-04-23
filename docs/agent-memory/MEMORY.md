@@ -12,3 +12,4 @@ Project-specific memory for wise-ui. User-wide preferences (language, commit pol
 - [Multi-target vision](project_multi_target_vision.md) — Vue-only today; architecture supports React/Rails later; portability rules; full analysis in docs/targets.md
 - [Mirror memory to disk](feedback_mirror_memory_to_disk.md) — every memory write is mirrored to docs/agent-memory/ in the repo; both stay in sync
 - [Foundation v1 baseline](project_foundation_v1.md) — v1 closed 2026-04-23; pinned docs in docs/ + two Home conformance screens; changes are deliberate
+- [File structure](project_file_structure.md) — colocation default; schemas live with forms (screen-level), not with DS components; full spec in docs/file-structure.md
