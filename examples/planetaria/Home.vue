@@ -8,7 +8,7 @@ import {
   ResourceList,
   StatusDot, StatusBadge,
   FeedList,
-  Text, Avatar,
+  Text, Avatar, Logo, Icon,
 } from 'wise-ui'
 import {
   ChartBarSquareIcon,
@@ -93,12 +93,18 @@ const environmentTone: Record<Environment, Tone> = {
   preview:    'neutral',
   production: 'accent',
 }
+
+const statusTone: Record<DeploymentStatus, Tone> = {
+  offline: 'neutral',
+  online:  'positive',
+  error:   'negative',
+}
 </script>
 
 <template>
   <SidebarShell :nav="nav" :user="user">
     <template #brand>
-      <img src="/logo.svg" alt="Planetaria" class="h-8" />
+      <Logo src="/logo.svg" alt="Planetaria" size="lg" />
     </template>
 
     <template #nav-extra>
@@ -115,7 +121,7 @@ const environmentTone: Record<Environment, Tone> = {
           <Menu>
             <template #trigger>
               Ordenar por
-              <ChevronUpDownIcon class="size-5" aria-hidden="true" />
+              <Icon :src="ChevronUpDownIcon" size="sm" aria-hidden="true" />
             </template>
             <MenuItem v-for="o in sortOptions" :key="o.value" :value="o.value">
               {{ o.label }}
@@ -124,9 +130,9 @@ const environmentTone: Record<Environment, Tone> = {
         </template>
       </PageHeading>
 
-      <ResourceList :items="deployments" :item-href="(d) => d.href">
+      <ResourceList :items="deployments" item-href="href">
         <template #leading="{ item }">
-          <StatusDot :tone="item.status" />
+          <StatusDot :tone="statusTone[item.status]" />
         </template>
 
         <template #title="{ item }">

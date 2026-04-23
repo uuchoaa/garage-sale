@@ -13,6 +13,14 @@ import {
   DescriptionListItem,
   Menu,
   MenuItem,
+  Grid,
+  Stack,
+  Cluster,
+  Icon,
+  Logo,
+  Text,
+  Link,
+  VisuallyHidden,
 } from 'wise-ui'
 import { EllipsisHorizontalIcon, PlusSmallIcon } from '@heroicons/vue/20/solid'
 
@@ -106,7 +114,7 @@ const statusTone: Record<ActivityStatus, Tone> = {
 <template>
   <StackedShell :nav="nav" :user="user">
     <template #brand>
-      <img src="/logo.svg" alt="Cashflow" class="h-8" />
+      <Logo src="/logo.svg" alt="Cashflow" size="lg" />
     </template>
 
     <PageHeading title="Cashflow">
@@ -123,31 +131,45 @@ const statusTone: Record<ActivityStatus, Tone> = {
     <PageSection title="Atividade recente">
       <ActivityTable :groups="activity">
         <template #amount="{ entry }">
-          <span>{{ entry.amount }}</span>
-          <StatusBadge :tone="statusTone[entry.status]" :label="statusLabel[entry.status]" />
+          <Stack gap="xs">
+            <Cluster gap="sm">
+              <Text weight="medium">{{ entry.amount }}</Text>
+              <StatusBadge :tone="statusTone[entry.status]" :label="statusLabel[entry.status]" />
+            </Cluster>
+            <Text v-if="entry.tax" tone="muted" size="xs">{{ entry.tax }} imposto</Text>
+          </Stack>
         </template>
 
         <template #meta="{ entry }">
-          <div>{{ entry.counterparty }}</div>
-          <div>{{ entry.description }}</div>
+          <Stack gap="xs">
+            <Text>{{ entry.counterparty }}</Text>
+            <Text tone="muted" size="xs">{{ entry.description }}</Text>
+          </Stack>
         </template>
 
         <template #action="{ entry }">
-          <a :href="entry.href">Ver<span class="sr-only"> transação</span></a>
-          <div>Fatura #{{ entry.ref }}</div>
+          <Stack gap="xs" align="end">
+            <Link :to="entry.href">Ver<VisuallyHidden> transação</VisuallyHidden></Link>
+            <Text tone="muted" size="xs">Fatura #{{ entry.ref }}</Text>
+          </Stack>
         </template>
       </ActivityTable>
     </PageSection>
 
     <PageSection title="Clientes recentes" action-label="Ver todos" action-href="/clients">
-      <ul role="list" class="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
+      <Grid :cols="{ base: 1, lg: 3 }" gap="lg" tag="ul" role="list">
         <Card v-for="client in clients" :key="client.id" tag="li">
           <template #header>
-            <img :src="client.logo" :alt="client.name" class="size-12 rounded-lg" />
-            <span>{{ client.name }}</span>
-            <Menu class="ml-auto">
+            <Cluster gap="md" align="center">
+              <Logo :src="client.logo" :alt="client.name" size="xl" />
+              <Text weight="medium">{{ client.name }}</Text>
+            </Cluster>
+          </template>
+
+          <template #header-trailing>
+            <Menu>
               <template #trigger>
-                <EllipsisHorizontalIcon class="size-5" aria-hidden="true" />
+                <Icon :src="EllipsisHorizontalIcon" size="sm" aria-hidden="true" />
               </template>
               <MenuItem :to="`/clients/${client.id}`">Ver</MenuItem>
               <MenuItem :to="`/clients/${client.id}/edit`">Editar</MenuItem>
@@ -159,12 +181,14 @@ const statusTone: Record<ActivityStatus, Tone> = {
               <time :datetime="client.lastInvoice.datetime">{{ client.lastInvoice.date }}</time>
             </DescriptionListItem>
             <DescriptionListItem label="Valor">
-              <span>{{ client.lastInvoice.amount }}</span>
-              <StatusBadge :tone="statusTone[client.lastInvoice.status]" :label="statusLabel[client.lastInvoice.status]" />
+              <Cluster gap="sm" align="center">
+                <Text>{{ client.lastInvoice.amount }}</Text>
+                <StatusBadge :tone="statusTone[client.lastInvoice.status]" :label="statusLabel[client.lastInvoice.status]" />
+              </Cluster>
             </DescriptionListItem>
           </DescriptionList>
         </Card>
-      </ul>
+      </Grid>
     </PageSection>
   </StackedShell>
 </template>
