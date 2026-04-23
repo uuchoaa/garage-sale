@@ -260,7 +260,7 @@ const secondaryNavigation: SecondaryNav[] = [
                       class="absolute inset-0 size-full appearance-none focus:outline-hidden"
                       aria-label="Automatic timezone"
                       name="automatic-timezone"
-                      checked=""
+                      :checked="true"
                     />
                   </div>
                 </dd>
