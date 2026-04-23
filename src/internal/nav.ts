@@ -23,5 +23,5 @@ export type NavGroupItem = {
 
 export type User = {
   name: string
-  avatar: string
+  avatar?: string
 }
