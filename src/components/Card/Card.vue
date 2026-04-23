@@ -14,11 +14,11 @@ const slots = useSlots()
 <template>
   <component
     :is="tag"
-    class="flex flex-col gap-4 rounded-lg bg-white p-5 ring-1 ring-inset ring-tone-neutral-500/10"
+    class="overflow-hidden rounded-xl outline outline-tone-neutral-500/15"
   >
     <div
       v-if="slots.header || slots['header-trailing']"
-      class="flex items-center justify-between gap-3"
+      class="flex items-center gap-x-4 border-b border-tone-neutral-500/10 bg-tone-neutral-50 p-6"
     >
       <div class="min-w-0 flex-1">
         <slot name="header" />
@@ -27,6 +27,8 @@ const slots = useSlots()
         <slot name="header-trailing" />
       </div>
     </div>
-    <slot />
+    <div class="px-6 py-4">
+      <slot />
+    </div>
   </component>
 </template>

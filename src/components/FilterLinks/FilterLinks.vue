@@ -12,7 +12,7 @@ defineEmits<{
 </script>
 
 <template>
-  <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium">
+  <nav class="flex w-full gap-x-8 text-sm/6 font-semibold sm:w-auto sm:text-sm/7">
     <button
       v-for="item in items"
       :key="item.value"
@@ -21,7 +21,7 @@ defineEmits<{
         'transition-colors',
         item.current || value === item.value
           ? 'text-tone-accent-700'
-          : 'text-tone-neutral-500 hover:text-tone-neutral-700',
+          : 'text-tone-neutral-700 hover:text-tone-neutral-500',
       ]"
       @click="$emit('update:value', item.value)"
     >
