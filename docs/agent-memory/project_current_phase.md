@@ -1,30 +1,30 @@
 ---
-name: Current phase (2026-04-23) — screens drafted, DS unimplemented
-description: 4 archetypes × 2 apps drafted against an unimplemented wise-ui package; src/ empty; next choice is implement DS vs build YAML translator vs 5th archetype
+name: Current phase (2026-04-23 session close) — DS v1 implemented, no visual pass
+description: 50 components in src/, all 8 reference screens typecheck and compile; never rendered in a browser; next choice is visual pass vs YAML translator vs 5th archetype
 type: project
 originSessionId: 9eefaf1b-b886-4dfa-a37d-88630de31156
 ---
-**Screen coverage (as of 2026-04-23):**
+**DS v1 implemented as of 2026-04-23 (second session that day).**
 
-Four archetypes × two reference apps = 8 screens in `examples/`:
+50 components landed under `src/components/*`. Shipped in four slices: foundation → shells+nav+actions → data display → detail+settings+forms+motion. All 8 reference screens in `examples/{cashflow,planetaria}/{Home,Index,Detail,Settings}.vue` import from `'wise-ui'` and pass `pnpm typecheck`. Dev harness in `dev/App.vue` routes between the 8 screens.
 
-|           | Cashflow                | Planetaria               |
-|-----------|-------------------------|--------------------------|
-| Home      | `Home.{yaml,vue}`       | `Home.{yaml,vue}`        |
-| Index     | `Index.{yaml,vue}`      | `Index.{yaml,vue}`       |
-| Detail    | `Detail.{yaml,vue}`     | `Detail.{yaml,vue}`      |
-| Settings  | `Settings.{yaml,vue}`   | `Settings.{yaml,vue}`    |
+**Why:** See `feedback_ds_emerges_from_product.md` — four archetypes × two apps produced a stable vocabulary; implementation was deferred until the catalog stopped drifting. Also see README "Repo state" section (now authoritative; this memory is just a pointer).
 
-Home (both apps) is the pinned conformance suite for YAML grammar v1. Index/Detail/Settings are drafts that proposed new primitives — all of which are now cataloged in `docs/components.md`.
+**What has NOT happened yet:**
 
-**`src/` is empty.** All screens import from `'wise-ui'`, but the package has no implementations. The code is proposal-grade: validated by eye against the catalog, not by running.
+- No visual pass. Nothing has been rendered in a browser this session (ferrum MCP couldn't reach the dev server from its container; we stopped chasing). The oklch tone palette in `src/styles.css` is placeholder.
+- No YAML→Vue translator. Every `.vue` screen is still hand-written alongside its `.yaml` sibling.
+- No Storybook, no unit specs. Intentional per README "Deferred."
 
-**Why:** DS emerges from product (see `feedback_ds_emerges_from_product.md`). Four archetypes across two apps has produced a stable enough vocabulary to justify the DS → code step; cataloging *before* implementation prevents API drift.
+**How to apply** — next session, read the README first (it's the source of truth for repo state and next-session priorities). The memory will stay in sync only if someone remembers to update it; the README update is part of the session-close habit starting today. Ranked choices from the README:
 
-**How to apply** — when starting a new session, the natural next phases, in rough order of readiness:
+1. **Visual pass in browser** — boot `pnpm dev`, walk the 8 screens, fix what's broken / off-brand / motion-missing. Cheapest signal, likely surfaces DS gaps that reorder everything below.
+2. **YAML→Vue translator** — deterministic emitter using `docs/yaml-grammar.md`. Depends on DS being roughly right.
+3. **5th archetype** — defers both above; only do it if a concrete product need shows up.
 
-1. **Implement wise-ui primitives in `src/`.** `docs/components.md` is the spec; `docs/foundations.md` has tokens + layout/media/motion primitives; `docs/file-structure.md` has the layout.
-2. **Build the YAML→Vue translator.** Grammar in `docs/yaml-grammar.md`; `.yaml` files are intended ground truth, `.vue` files currently hand-written in parallel. Closing this loop validates "YAML as source of truth."
-3. **Add a 5th archetype** only if a real product need surfaces (empty states / error / onboarding / auth — none pressing today).
+**Non-obvious stuff worth remembering:**
 
-Before acting: read `docs/components.md` for the vocabulary and `git log --oneline -15` to see the latest archetype cadence and any drift since this memory was written. The pattern per archetype is: draft both apps → propose new primitives → catalog in `docs/components.md` → commit as `feat(<app>): …` + `docs: catalog …`.
+- `wise-ui` resolves via path alias (`tsconfig paths` + `vite resolve.alias`), not via workspace or npm publish. Migrate if a second consumer tree appears.
+- Form stack is VeeValidate + Zod; `.schema.ts` colocated with screen (see `feedback_decide_after_proposal.md` and README "Session decisions").
+- Example `.vue` files now import types (`NavItem`, `NavGroupItem`, `NavTabItem`, `Tone`) from `wise-ui` instead of redeclaring them inline. This is the pattern for any new example.
+- `Text` has no `size="base"` — it's `"md"`. Foundations vocabulary is `xs · sm · md · lg · xl`.
