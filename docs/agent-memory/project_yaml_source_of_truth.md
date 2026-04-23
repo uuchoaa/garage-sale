@@ -1,31 +1,22 @@
 ---
-name: Screens are authored in YAML; Vue is a compiled artifact
-description: Each consumer screen has a YAML source of truth; a deterministic translator (rule-based or small local model) produces the .vue; production swaps the stub script for real wiring
+name: YAML-as-spec posture (2026-04-23 reversal)
+description: Original "YAML is source of truth, Vue is a build output" ambition is paused; YAMLs are now design specs, .vue files are what ships; deterministic translator revisited only when a real second consumer (React/Rails) appears
 type: project
 originSessionId: b09699a7-167d-4bb0-b35f-7c419cf12540
 ---
-Consumer screens (for Cashflow, Planetaria, Garage Sale) are authored as YAML files. A deterministic translator emits the `.vue` (template + stub script). Going to production means replacing the generated `<script>` stub with hand-wired data sources (API, stores), while the `<template>` stays machine-generated.
+**Posture change recorded 2026-04-23.** The YAML-as-source-of-truth ambition is on ice.
 
-**Why this layering:**
-- A YAML grammar is a smaller closed language than Vue — a small local model (Qwen-class) or even a rule-based translator can produce the `.vue` reliably from it.
-- YAML is 5-10× fewer tokens than equivalent Vue for an LLM producing a briefing. Cheaper, faster.
-- Auditing diffs happens on YAML, where every change is structural and readable — not on generated Vue where whitespace/reorderings create noise.
-- Reinforces the DS determinism premise: non-determinism moves up one layer (brief → YAML), where the grammar is smaller and more controllable; YAML → Vue becomes mechanical.
+**Today's reality:**
+- `examples/<app>/<Screen>.yaml` files are **design specs** — they document what a screen should render and with which DS primitives. They do NOT compile to Vue.
+- `examples/<app>/<Screen>.vue` is **what ships**. It imports from `wise-ui` and enforces the closed vocabulary by what it uses.
+- The deterministic YAML→Vue translator does not exist. Implementing it was a tooling cost paid 100% upfront for a multi-target benefit that may never materialize.
 
-**What YAML expresses:**
-- Structure: components, nesting, slots, repeats, conditionals.
-- Props: literal values or references to data.
-- Token choices (`tone`, `size`, `gap`): enumerated strings only.
-- Text content and interpolation.
-- Data contract: the shape of variables the `<script>` is expected to produce.
+**Why:** Modern Claude-class LLMs write Vue respecting a closed component catalog when given the catalog and a clear prompt; they don't need an intermediate DSL. The translator would re-implement what Vue already provides (v-for/v-if/scoped slots/v-bind), add a 3-layer debug chain, and lose IDE support on the authoring language. See `docs/archetypes.md` AD-5 and `docs/articles/event-sourced-frontend-i-didnt-build.md` for the longer reasoning.
 
-**What YAML does not express:**
-- Animations/motion — those live in wise-ui components, not in screens.
-- Interactivity logic (validation, state machines, optimistic updates) — those live in the `<script>` and are hand-authored (or authored by a separate agent with richer context).
-- Styling primitives beyond DS tokens — no CSS, no Tailwind, no inline styles.
+**When to revisit:** A real second consumer shows up (React SPA, Rails + ERB, etc.) with a concrete deadline. At that point build the translator with real requirements, not speculative ones.
 
-**How to apply:**
-- Treat `.yaml` as the canonical source; `.vue` as a build output. Edits to the `.vue` template are forbidden — regenerate from YAML instead.
-- The `<script>` portion is *not* generated from YAML; it is either a stub for mock data (one mode) or hand-written wiring (production).
-- When starting a new screen, start in YAML. When tempted to hand-tune the `.vue`, extend the YAML grammar instead.
-- Derive the grammar from real screens, not in a vacuum. Add only what 2+ screens need.
+**How to apply today:**
+- When drafting a new screen, you can sketch the YAML first as a spec — it's a cheap way to think — but the Vue is the deliverable, hand-written against the DS.
+- Don't treat YAML edits as authoritative over Vue. If the two diverge, the Vue wins; update the YAML to match.
+- Don't extend the YAML grammar for new use cases. If a new shape is needed, it belongs in `docs/archetypes.md` as a new archetype or archetype variant.
+- YAML files still have value: they're compact screen-level specs that pair nicely with `briefing.md`. Keep them in sync when substantial structural changes land.

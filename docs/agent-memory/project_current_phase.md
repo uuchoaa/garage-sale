@@ -1,6 +1,6 @@
 ---
-name: Current phase (2026-04-23 session close) — DS v1 implemented, no visual pass
-description: 50 components in src/, all 8 reference screens typecheck and compile; never rendered in a browser; next choice is visual pass vs YAML translator vs 5th archetype
+name: Current phase (2026-04-23 session close) — DS v1 implemented; archetype system formalized
+description: 50 components in src/, all 8 reference screens compile; archetype×dialect system now canonical in docs/archetypes.md with per-app briefings; YAML translator ambition paused; next choice remains visual pass
 type: project
 originSessionId: 9eefaf1b-b886-4dfa-a37d-88630de31156
 ---
@@ -8,12 +8,14 @@ originSessionId: 9eefaf1b-b886-4dfa-a37d-88630de31156
 
 50 components landed under `src/components/*`. Shipped in four slices: foundation → shells+nav+actions → data display → detail+settings+forms+motion. All 8 reference screens in `examples/{cashflow,planetaria}/{Home,Index,Detail,Settings}.vue` import from `'wise-ui'` and pass `pnpm typecheck`. Dev harness in `dev/App.vue` routes between the 8 screens.
 
+**Archetype system formalized (2026-04-23, third session).** `docs/archetypes.md` is now canonical for the 4×2 matrix; `examples/<app>/briefing.md` explains per-app dialect choices. Cashflow Detail spec updated to the 2-col rail+document layout matching the Tailwind Plus archived invoice archetype. See `project_archetype_system.md`.
+
 **Why:** See `feedback_ds_emerges_from_product.md` — four archetypes × two apps produced a stable vocabulary; implementation was deferred until the catalog stopped drifting. Also see README "Repo state" section (now authoritative; this memory is just a pointer).
 
 **What has NOT happened yet:**
 
 - No visual pass. Nothing has been rendered in a browser this session (ferrum MCP couldn't reach the dev server from its container; we stopped chasing). The oklch tone palette in `src/styles.css` is placeholder.
-- No YAML→Vue translator. Every `.vue` screen is still hand-written alongside its `.yaml` sibling.
+- No YAML→Vue translator — and the ambition is formally paused (see `project_yaml_source_of_truth.md`). YAMLs are now specs, not source of truth.
 - No Storybook, no unit specs. Intentional per README "Deferred."
 
 **How to apply** — next session, read the README first (it's the source of truth for repo state and next-session priorities). The memory will stay in sync only if someone remembers to update it; the README update is part of the session-close habit starting today. Ranked choices from the README:
