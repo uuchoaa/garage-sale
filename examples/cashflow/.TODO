@@ -5,4 +5,6 @@ Pending screens (Vue API sketches, not runnable):
 - [x] Detail      — invoice detail (DetailHeading, SummaryCard, Timeline, InvoiceDocument)
 - [x] Settings    — profile / bank accounts / integrations / language
 
-All three sketches exist. Next: per-page specs + briefing.md.
+All three sketches exist.
+- [x] briefing.md — app-level intent and dialect choices
+- [ ] per-screen spec notes (if we decide these are distinct from YAML + briefing)
