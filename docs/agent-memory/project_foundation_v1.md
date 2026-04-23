@@ -4,21 +4,22 @@ description: First version of the wise-ui foundation is closed, anchored on Cash
 type: project
 originSessionId: b09699a7-167d-4bb0-b35f-7c419cf12540
 ---
-The v1 foundation of wise-ui was closed on **2026-04-23**, anchored on two reference screens: `examples/cashflow/Home.vue` + `examples/cashflow/Home.yaml` and `examples/planetaria/Home.vue` + `examples/planetaria/Home.yaml`.
+The v1 foundation of wise-ui was closed on **2026-04-23**, anchored on two reference screens: `examples/cashflow/Home.vue` and `examples/planetaria/Home.vue`.
 
 **Pinned artifacts** (the baseline):
 - `docs/foundations.md` — tokens + layout/media/motion primitives + motion contracts.
 - `docs/components.md` — enumerative catalog of all non-primitive components (shells, page structure, nav, actions, data display).
-- `docs/yaml-grammar.md` — YAML dialect spec for authoring screens; target-neutral.
-- `docs/targets.md` — multi-target vision (Vue in scope now; React/Rails later).
-- `examples/cashflow/Home.{vue,yaml}` — Stacked shell reference.
-- `examples/planetaria/Home.{vue,yaml}` — Sidebar shell reference.
+- `docs/archetypes.md` — 4×2 archetype × dialect system (added same-day; replaces the earlier YAML-grammar doc).
+- `docs/targets.md` — multi-target posture (Vue-only today; multi-target deferred).
+- `examples/cashflow/Home.vue` — Stacked shell reference.
+- `examples/planetaria/Home.vue` — Sidebar shell reference.
 
 **What "closed" means:**
 - These docs are authoritative. Changes are deliberate, not casual.
-- Both Home screens serve as the conformance suite for the YAML grammar — any grammar change must keep both valid.
+- Both Home screens serve as the conformance suite — any DS change must keep both valid.
 - Adding a component, slot, or token is OK when a new real screen justifies it; the change propagates to docs + conformance screens in the same pass.
-- The archetype set has since grown past Home (Index, Detail, Settings drafted for both apps as of 2026-04-23) — current phase is tracked in `project_current_phase.md`.
+- The archetype set has since grown past Home (Index, Detail, Settings implemented for both apps as of 2026-04-23) — current phase is tracked in `project_current_phase.md`.
+- The YAML spec layer was removed later that day; references to `.yaml` files are historical.
 
 **Pattern for future changes:**
 1. New screen introduces a requirement not covered by v1.
