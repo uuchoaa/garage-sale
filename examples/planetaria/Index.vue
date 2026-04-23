@@ -16,6 +16,10 @@ import {
   Text,
   Stack,
   Cluster,
+  type NavItem,
+  type NavGroupItem,
+  type NavTabItem,
+  type Tone,
 } from 'wise-ui'
 import {
   ChartBarSquareIcon,
@@ -27,10 +31,8 @@ import {
 } from '@heroicons/vue/24/outline'
 import { PlusSmallIcon } from '@heroicons/vue/20/solid'
 
-type Tone = 'positive' | 'negative' | 'neutral' | 'accent'
-type NavItem = { label: string; to: string; icon?: unknown; current?: boolean }
-type TeamItem = { label: string; to: string; initial: string; current?: boolean }
-type EnvironmentTab = { label: string; value: string; current?: boolean }
+type TeamItem = NavGroupItem
+type EnvironmentTab = NavTabItem
 type Column = { key: string; label: string; align?: 'start' | 'end' }
 
 type Environment = 'preview' | 'production'

@@ -15,6 +15,9 @@ import {
   Button,
   Text,
   Logo,
+  type NavItem,
+  type NavGroupItem,
+  type NavTabItem,
 } from 'wise-ui'
 import {
   ChartBarSquareIcon,
@@ -30,9 +33,8 @@ import {
   logoutOthersSchema,
 } from './Settings.schema'
 
-type NavItem = { label: string; to: string; icon?: unknown; current?: boolean }
-type TeamItem = { label: string; to: string; initial: string; current?: boolean }
-type NavTab = { label: string; value: string; current?: boolean }
+type TeamItem = NavGroupItem
+type NavTab = NavTabItem
 type SelectOption = { value: string; label: string }
 
 const nav: NavItem[] = [

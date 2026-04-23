@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "jsx": "preserve",
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": false,
+    "noEmit": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "wise-ui": ["./src/index.ts"],
+      "wise-ui/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "dev/**/*.ts",
+    "dev/**/*.vue",
+    "examples/**/*.ts",
+    "examples/**/*.vue"
+  ]
+}
+
+
+

@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  /* Tone palette — consumed via data-tone attributes in DS components. */
+  --color-tone-positive-50: oklch(0.97 0.04 150);
+  --color-tone-positive-500: oklch(0.65 0.18 150);
+  --color-tone-positive-700: oklch(0.48 0.18 150);
+
+  --color-tone-negative-50: oklch(0.97 0.04 25);
+  --color-tone-negative-500: oklch(0.60 0.22 25);
+  --color-tone-negative-700: oklch(0.45 0.22 25);
+
+  --color-tone-warning-50: oklch(0.97 0.05 85);
+  --color-tone-warning-500: oklch(0.75 0.15 85);
+  --color-tone-warning-700: oklch(0.55 0.15 85);
+
+  --color-tone-neutral-50: oklch(0.97 0 0);
+  --color-tone-neutral-500: oklch(0.55 0 0);
+  --color-tone-neutral-700: oklch(0.35 0 0);
+
+  --color-tone-accent-50: oklch(0.97 0.03 260);
+  --color-tone-accent-500: oklch(0.55 0.20 260);
+  --color-tone-accent-700: oklch(0.40 0.20 260);
+
+  /* Motion tokens. Reduced-motion collapses to 0 in each primitive. */
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --duration-slow: 320ms;
+
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+  --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring: cubic-bezier(0.5, 1.6, 0.4, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+    --duration-slow: 0ms;
+  }
+}

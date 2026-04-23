@@ -9,6 +9,8 @@ import {
   SettingsToggleRow,
   Button,
   Logo,
+  type NavItem,
+  type NavGroupItem,
 } from 'wise-ui'
 import {
   BellIcon,
@@ -21,9 +23,6 @@ import {
   UsersIcon,
 } from '@heroicons/vue/24/outline'
 import { PlusSmallIcon } from '@heroicons/vue/20/solid'
-
-type NavItem = { label: string; to: string; current?: boolean }
-type NavGroupItem = { label: string; to: string; icon?: unknown; current?: boolean }
 
 const nav: NavItem[] = [
   { label: 'Home', to: '/' },

@@ -12,12 +12,13 @@ import {
   Link,
   Text,
   Cluster,
+  type NavItem,
+  type NavTabItem,
+  type Tone,
 } from 'wise-ui'
 import { PlusSmallIcon } from '@heroicons/vue/20/solid'
 
-type NavItem = { label: string; to: string; current?: boolean }
-type StatusTab = { label: string; value: string; current?: boolean }
-type Tone = 'positive' | 'negative' | 'neutral' | 'accent'
+type StatusTab = NavTabItem
 type Column = { key: string; label: string; align?: 'start' | 'end' }
 
 type InvoiceStatus = 'paid' | 'open' | 'overdue'

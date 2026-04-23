@@ -9,6 +9,7 @@ import {
   StatusDot, StatusBadge,
   FeedList,
   Text, Avatar, Logo, Icon,
+  type NavItem, type NavGroupItem, type Tone,
 } from 'wise-ui'
 import {
   ChartBarSquareIcon,
@@ -20,12 +21,10 @@ import {
 } from '@heroicons/vue/24/outline'
 import { ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 
-type Tone = 'positive' | 'negative' | 'neutral' | 'accent'
 type DeploymentStatus = 'offline' | 'online' | 'error'
 type Environment = 'preview' | 'production'
 
-type NavItem = { label: string; to: string; icon?: unknown; current?: boolean }
-type TeamItem = { label: string; to: string; initial: string; current?: boolean }
+type TeamItem = NavGroupItem
 
 type Deployment = {
   id: string

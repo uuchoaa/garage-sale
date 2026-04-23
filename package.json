@@ -1,0 +1,34 @@
+{
+  "name": "wise-ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Vue-based design system based on Tailwind Plus Application UI bundle.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.23",
+    "@heroicons/vue": "^2.2.0",
+    "@vee-validate/zod": "^4.15.1",
+    "vee-validate": "^4.15.1",
+    "vue": "^3.5.13",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7",
+    "vue-tsc": "^2.2.0"
+  }
+}

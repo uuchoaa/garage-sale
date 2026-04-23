@@ -15,6 +15,10 @@ import {
   Logo,
   Text,
   Cluster,
+  type NavItem,
+  type NavGroupItem,
+  type NavTabItem,
+  type Tone,
 } from 'wise-ui'
 import {
   ChartBarSquareIcon,
@@ -25,10 +29,8 @@ import {
   SignalIcon,
 } from '@heroicons/vue/24/outline'
 
-type Tone = 'positive' | 'negative' | 'neutral' | 'accent'
-type NavItem = { label: string; to: string; icon?: unknown; current?: boolean }
-type TeamItem = { label: string; to: string; initial: string; current?: boolean }
-type NavTab = { label: string; value: string; current?: boolean }
+type TeamItem = NavGroupItem
+type NavTab = NavTabItem
 
 type Environment = 'preview' | 'production'
 type DeployStatus = 'completed' | 'error'

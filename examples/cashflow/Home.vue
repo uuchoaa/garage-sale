@@ -21,13 +21,13 @@ import {
   Text,
   Link,
   VisuallyHidden,
+  type NavItem,
+  type NavTabItem,
+  type Tone,
 } from 'wise-ui'
 import { EllipsisHorizontalIcon, PlusSmallIcon } from '@heroicons/vue/20/solid'
 
-type NavItem = { label: string; to: string; current?: boolean }
-type RangeTab = { label: string; value: string; current?: boolean }
-
-type Tone = 'positive' | 'negative' | 'neutral' | 'accent'
+type RangeTab = NavTabItem
 type Stat = { label: string; value: string; delta: string; tone: Tone }
 
 type ActivityStatus = 'paid' | 'overdue' | 'withdraw'

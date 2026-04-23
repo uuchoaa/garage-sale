@@ -130,7 +130,7 @@ const submitComment = comment.handleSubmit(() => {})
           <Cluster justify="between" align="center">
             <Stack gap="xs">
               <Text tone="muted" size="sm">Valor</Text>
-              <Text size="base" weight="semibold">{{ invoice.amount }}</Text>
+              <Text size="md" weight="semibold">{{ invoice.amount }}</Text>
             </Stack>
             <StatusBadge :tone="statusTone[invoice.status]" :label="invoice.statusLabel" />
           </Cluster>

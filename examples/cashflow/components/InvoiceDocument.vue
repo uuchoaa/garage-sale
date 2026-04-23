@@ -26,7 +26,7 @@ defineProps<{
 
 <template>
   <Stack gap="xl" tag="article">
-    <Text size="base" weight="semibold">Fatura</Text>
+    <Text size="md" weight="semibold">Fatura</Text>
 
     <Cluster gap="xl" wrap>
       <Stack gap="xs">
