@@ -10,8 +10,8 @@ DS implemented (50 components). All 8 reference screens (Cashflow + Planetaria �
 - `src/tokens.ts` — `Tone | Size | Weight | Gap | Duration | Easing | Distance | Breakpoint` + `Responsive<T>`.
 - `src/styles.css` — Tailwind v4 entry + `@theme` tokens + reduced-motion overrides.
 - `dev/` — Vite harness. `pnpm dev` → http://localhost:5173 → picker for the 8 screens.
-- `examples/{cashflow,planetaria}/` — reference screens in `.vue` + `.yaml` + optional `.schema.ts`. Source of truth for what the DS must serve.
-- `docs/` — `foundations.md`, `components.md`, `yaml-grammar.md`, `file-structure.md`, `targets.md`.
+- `examples/{cashflow,planetaria}/` — reference screens in `.vue` + optional `.schema.ts`, plus `briefing.md` explaining the app's dialect. Source of truth for what the DS must serve.
+- `docs/` — `archetypes.md`, `foundations.md`, `components.md`, `file-structure.md`, `targets.md`.
 
 ## Stack
 
@@ -43,7 +43,7 @@ Trade-off accepted: smaller ecosystem, `.value` unwrapping in `<script setup>`. 
 The DS renders the 8 screens but has never been seen in a browser. Everything else is a downstream choice from what we find when we look.
 
 1. **Visual pass in the browser.** Boot `pnpm dev`, walk the 8 screens, note what's broken / off-brand / spacing-wrong / motion-missing. The tone palette in `src/styles.css` is oklch placeholders — almost certainly wants a real pass. Expect 1–2 days of DS polish coming out of this.
-2. **YAML → .vue translator.** `docs/yaml-grammar.md` is the spec; each screen already has a `.yaml` sibling. Build the deterministic translator so a new screen is authored in YAML and emits a `.vue` stub. Unblocks LLM-generated screens end-to-end.
+2. **Migrate Detail / Home / Settings `.vue` of Cashflow to DS primitives.** Several reference screens are still the raw reverse-engineered Tailwind Plus output (Tailwind classes at the consumer, not DS components). Bring them into the closed vocabulary.
 3. **5th archetype.** More vocabulary before coding further. Cheap, but defers the two above.
 
 Default recommendation: **#1 first** (cheapest signal, likely surfaces DS gaps that change #2's priorities), then **#2**. #3 waits until we have reason to believe the current vocabulary is insufficient.
@@ -52,7 +52,7 @@ Default recommendation: **#1 first** (cheapest signal, likely surfaces DS gaps t
 
 ### 2026-04-23 (session close)
 
-Shipped the DS in four slices (scaffold+foundation → shells+nav+actions → data display → detail+settings+forms+motion). 50 components, all 8 screens compile. No visual pass yet. Inline `NavItem`/`NavGroupItem`/`NavTabItem`/`Tone` type decls in examples collapsed to imports from `wise-ui` now that the DS is the source of truth. `Text size="base"` → `size="md"` in two places (foundations has no `base`). Storybook, unit specs, translator, motion verification in DOM — all untouched on purpose.
+Shipped the DS in four slices (scaffold+foundation → shells+nav+actions → data display → detail+settings+forms+motion). 50 components, all 8 screens compile. No visual pass yet. Inline `NavItem`/`NavGroupItem`/`NavTabItem`/`Tone` type decls in examples collapsed to imports from `wise-ui` now that the DS is the source of truth. `Text size="base"` → `size="md"` in two places (foundations has no `base`). Storybook, unit specs, motion verification in DOM — all untouched on purpose. Later same day: archetype system formalized in `docs/archetypes.md` with per-app `briefing.md`s; the YAML spec layer and the deterministic-translator ambition were dropped (see `docs/articles/`).
 
 ### 2026-04-23 (session decisions, earlier)
 

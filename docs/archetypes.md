@@ -153,12 +153,11 @@ Rationale: the state is local to the data it replaces; surrounding chrome (headi
 
 Examples: `InvoiceDocument.vue`. These compose DS primitives into something too specific to generalize (an invoice *is* a Cashflow concern). They never import `styles.css` directly; they stay within the closed vocabulary.
 
-### AD-5 — Archetype pages are authored in Vue first
+### AD-5 — Screens are hand-written `.vue` against the DS
 
-Historically we modeled screens in YAML (`examples/<app>/<Screen>.yaml`) as the source of truth, with a deterministic translator to Vue. That ambition is paused: see `docs/articles/event-sourced-frontend-i-didnt-build.md` for background. Today:
-- YAMLs are **design specs** — they document what a screen should render and with which primitives.
-- `.vue` files are what ships.
-- Multi-target (React/Rails) is re-visited only when a real second consumer appears.
+No intermediate representation. `examples/<app>/<Screen>.vue` is the spec, the implementation, and what ships. The DS's closed vocabulary is enforced by what the screen imports — if it reaches for Tailwind classes or native markup for something a primitive covers, that's a bug in the screen or a gap in the DS.
+
+Multi-target (React/Rails) is re-visited only when a real second consumer appears. See `docs/articles/event-sourced-frontend-i-didnt-build.md` for background.
 
 ## Checklist for a new screen
 
@@ -168,4 +167,4 @@ Before writing anything:
 2. Which dialect? (Usually inherited from the app.)
 3. Does it need any primitive not in the matrix? If yes, **stop** — either the screen doesn't fit an archetype (rare, discuss), or we're about to extend the DS (deliberate, separate PR).
 4. Does it introduce new data tokens (`Tone`, `Status`, etc.)? Add them to `docs/foundations.md` first.
-5. Draft the YAML as spec; implement the Vue; sanity-check against the corresponding `briefing.md`.
+5. Write the `.vue` using only DS imports; sanity-check against the corresponding `briefing.md`.

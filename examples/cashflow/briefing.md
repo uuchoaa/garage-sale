@@ -46,7 +46,7 @@ Most visits to Settings read a value without changing it (check which bank is co
 
 - Local left rail (`Page.sidenav` slot with a `NavGroup`) — vertical because the shell's nav is horizontal. Perpendicular is the rule.
 - `SettingsSection` wrapper per group (Perfil, Contas bancárias, Integrações, Idioma e formato).
-- `SettingsFieldRow` shows `label + value + Update` action. Update opens a dialog or slide-over (not modeled in the YAML; it's interaction, not shape).
+- `SettingsFieldRow` shows `label + value + Update` action. Update opens a dialog or slide-over.
 - Multi-value sections (bank accounts, integrations) use `SettingsItemRow` in a list with an "Adicionar outro" button in the section's `actions` slot.
 - `SettingsToggleRow` for booleans ("Fuso horário automático").
 

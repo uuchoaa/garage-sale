@@ -48,7 +48,7 @@ Account settings are filled in holistically, not field by field. You open Settin
 - `SettingsFormSection` with always-visible inputs. Each section commits as a whole via its own `Save`.
 - Password section and "Encerrar outras sessões" are both short form sections; delete account at the end is a single-button danger section.
 
-Form state lives in a side-car `.schema.ts` (VeeValidate + Zod). The YAML only describes shape and initial data; wiring is target-specific.
+Form validation lives in a side-car `.schema.ts` (VeeValidate + Zod).
 
 ## Composition conventions
 

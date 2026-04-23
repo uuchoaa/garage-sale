@@ -29,13 +29,11 @@ One file per screen at the app root, plus colocated siblings:
 ```
 examples/cashflow/
   Home.vue
-  Home.yaml
   Settings.vue
-  Settings.yaml
-  Settings.schema.ts     # Yup/Zod schema for the form
+  Settings.schema.ts     # Zod schema for the form
   Settings.spec.ts       # screen-level test (when present)
   Settings.mock.ts       # test fixtures specific to this screen
-  .TODO                  # app-level tracking
+  briefing.md            # app-level intent and dialect choices
 ```
 
 ---
@@ -72,9 +70,7 @@ examples/cashflow/
 
 ## Schemas and the target-boundary
 
-`.schema.ts` is **Vue-specific** — it lives in the script layer, which is target-specific. When/if we port to React, schemas carry over mostly as-is (TS + Zod/Yup work in React). When we port to Rails, the equivalent is Active Record / dry-validation in `app/models/`, not a `.schema.ts` file.
-
-The YAML source of truth for a screen never mentions schemas — validation wiring happens in the hand-authored script layer. See `docs/targets.md` for the full layering.
+`.schema.ts` is **Vue-specific** — it lives in the script layer, which is target-specific. When/if we port to React, schemas carry over mostly as-is (TS + Zod work in React). When we port to Rails, the equivalent is Active Record / dry-validation in `app/models/`, not a `.schema.ts` file. See `docs/targets.md` for the full layering.
 
 ---
 

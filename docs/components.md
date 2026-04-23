@@ -2,7 +2,7 @@
 
 Every wise-ui component that is not a foundation primitive. Enumerative and authoritative — LLM generators read this as part of the prompt, so there is no "usually" or "can also."
 
-See `docs/foundations.md` for tokens and layout/media/motion primitives. See `docs/yaml-grammar.md` for how screens reference these components in YAML.
+See `docs/foundations.md` for tokens and layout/media/motion primitives. See `docs/archetypes.md` for how screens compose these components.
 
 ---
 
@@ -216,7 +216,7 @@ Scoped slots (all receive `{ item }`):
 - `meta` — secondary text below title.
 - `trailing` — right-most element (tag, badge, chevron).
 
-`itemHref` is a literal key or dotted path (no `$` prefix). The component resolves `item[path]` at runtime. In YAML: `itemHref: href`. In Vue: `item-href="href"`.
+`itemHref` is a literal key or dotted path. The component resolves `item[path]` at runtime. Example: `item-href="href"` picks `item.href` for each row.
 
 ### `<FeedList>`
 
