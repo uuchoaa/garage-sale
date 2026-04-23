@@ -72,3 +72,19 @@ Intentionally off-table until a concrete signal demands them:
 - **Mocks / fixtures** beyond what a single screen needs.
 - **Second-target ports** (React, Rails). Tracked in `docs/targets.md`; Vue-only for now.
 - **Package publishing**. Alias `wise-ui` → `src/index.ts` is enough while the DS has one consumer tree.
+
+# TO DO (not ready for dev yet, needs review)
+
+- [ ] Testar dark mode em Cashflow e Planetaria
+- [ ] Definir apps examples para os Page Examples _archived_ do TailwindPlus, da mesma forma que fizemos o Cashflow e Planetaria - ainda sem implementação, só modelagem e notas para nao perder o contexto.
+- [ ] Definir Roadmap
+  - [ ] Foundantion: DS deve atender sem atrito apps como Cashflow e Planetária - estado atual
+    - [ ] Terminar Cashflow
+      - [ ] revisar darkmode
+      - [ ] implementar src/, sem tests what so ever
+      - [ ] add um unico teste 2e2
+    - [ ] Terminar Planetaria
+      - [ ] replicar os ajustes de Cashflow
+  - [ ] Extensability: Atender apps parecidos como os do Page Examples Archived via configuração de temas e afins. Entender oq deve ser do DS e oq deve ser da Aplicação.
+  - [ ] Make it shine: Add camada qualidade, testes e artefatos visuais de apoio como sites, documentacao, etc - usar os próprios templates que compramos: https://tailwindcss.com/plus/templates#browse (acessar via MCP)
+    - [ ] principalmente https://tailwindcss.com/plus/templates/commit e https://tailwindcss.com/plus/templates/protocol e https://tailwindcss.com/plus/templates/syntax
