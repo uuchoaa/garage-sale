@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@source "../src/**/*.{vue,ts}";
+@source "../examples/**/*.vue";
+@source "../dev/**/*.{vue,html,ts}";
+
 @theme {
   /* Tone palette — consumed via data-tone attributes in DS components. */
   --color-tone-positive-50: oklch(0.97 0.04 150);
