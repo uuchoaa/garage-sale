@@ -18,7 +18,7 @@ The v1 foundation of wise-ui was closed on **2026-04-23**, anchored on two refer
 - These docs are authoritative. Changes are deliberate, not casual.
 - Both Home screens serve as the conformance suite for the YAML grammar — any grammar change must keep both valid.
 - Adding a component, slot, or token is OK when a new real screen justifies it; the change propagates to docs + conformance screens in the same pass.
-- The next planned pressure point is **forms** (Settings / Detail screens), which will surface new primitives (inputs, labels, fieldsets, validation patterns).
+- The archetype set has since grown past Home (Index, Detail, Settings drafted for both apps as of 2026-04-23) — current phase is tracked in `project_current_phase.md`.
 
 **Pattern for future changes:**
 1. New screen introduces a requirement not covered by v1.
