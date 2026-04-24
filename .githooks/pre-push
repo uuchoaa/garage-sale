@@ -1,0 +1,5 @@
+#!/bin/sh
+# wise-process hook. Delegates to scripts/codex/diff-verifier.py.
+# pre-push receives <remote> <url> as args and refs on stdin; we ignore them
+# and verify HEAD against the base ref (main).
+exec python3 "$(git rev-parse --show-toplevel)/scripts/codex/diff-verifier.py"

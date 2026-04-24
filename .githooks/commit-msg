@@ -1,0 +1,3 @@
+#!/bin/sh
+# wise-process hook. Delegates to scripts/codex/verify-commit-msg.sh.
+exec "$(git rev-parse --show-toplevel)/scripts/codex/verify-commit-msg.sh" "$@"

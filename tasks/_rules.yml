@@ -1,0 +1,35 @@
+# Wise Process — path → min evidence class
+#
+# Read by scripts/codex/diff-verifier.sh. Most-specific match wins
+# (last matching rule sets min_evidence). Every changed file must be
+# covered by at least one rule; uncovered paths force `manual`.
+#
+# Evidence classes: demo | tests | manual
+# (staging is disabled in wise-ui until a preview deploy exists.)
+
+rules:
+  # UI / DS surface — must have a runnable demo under .evidence/OP-N.sh
+  - match: ["src/**", "dev/**/*.vue", "dev/**/*.ts"]
+    min_evidence: demo
+
+  # Tests — a diff that only moves tests can prove itself by running
+  - match: ["**/*.test.ts", "**/*.spec.ts", "**/__tests__/**"]
+    min_evidence: tests
+
+  # Prose — founder reads the diff
+  - match: ["tasks/**", "docs/**", "*.md"]
+    min_evidence: manual
+
+  # The rail itself — any change requires founder eyes
+  - match:
+      - ".claude/**"
+      - ".githooks/**"
+      - "scripts/codex/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "vite.config.*"
+      - "tsconfig*.json"
+    min_evidence: manual
+
+large_diff_threshold: 500
+large_diff_override_field: large_ok   # in meta.yml, set `large_ok: true` to bypass
