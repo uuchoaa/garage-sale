@@ -157,7 +157,7 @@ Examples: `InvoiceDocument.vue`. These compose DS primitives into something too 
 
 No intermediate representation. `examples/<app>/<Screen>.vue` is the spec, the implementation, and what ships. The DS's closed vocabulary is enforced by what the screen imports — if it reaches for Tailwind classes or native markup for something a primitive covers, that's a bug in the screen or a gap in the DS.
 
-Multi-target (React/Rails) is re-visited only when a real second consumer appears. See `docs/articles/event-sourced-frontend-i-didnt-build.md` for background.
+Multi-target (React/Rails) is re-visited only when a real second consumer appears.
 
 ## Checklist for a new screen
 

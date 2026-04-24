@@ -23,5 +23,3 @@ Project-level terms used across this repo.
   WIP scaffolds.
 - **`docs/assets/application-ui-v4/`** — Tailwind Plus reference pattern
   library. Read-only; browsed and cherry-picked from, never edited.
-- **`docs/articles/`** — long-form notes on decisions taken during the
-  project.
