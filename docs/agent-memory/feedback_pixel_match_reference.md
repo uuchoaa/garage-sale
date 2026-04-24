@@ -14,5 +14,4 @@ The earlier "pt-BR + BRL" convention in CLAUDE.md is gone. Reference screens —
 - `examples/cashflow/*.vue` and `examples/planetaria/*.vue` use English copy, USD (`$10,560.00`, commas as thousands, dot as decimal), and English absolute dates (`January 31, 2023`).
 - Relative time uses English idiom: `just now`, `2h ago`, `yesterday`, `5 days ago`.
 - DS primitives in `src/` remain locale-neutral — no hardcoded strings.
-- Garage Sale (future consumer, pt-BR by nature) is out of scope per `project_scope.md`; don't let its existence bleed English-only policy into the repo.
 - Don't re-introduce pt-BR into any file under `examples/` or any doc that describes them without an explicit user directive.

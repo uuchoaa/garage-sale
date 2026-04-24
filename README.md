@@ -79,8 +79,6 @@ Input: model 1–2 Tailwind Plus _archived_ Page Examples (no implementation —
 - [ ] Token overrides + brand palette
 - [ ] Scope question: DS responsibility vs. app responsibility
 
-Garage Sale fits here as a third real consumer if the motivation holds.
-
 ### Phase 4 — Make it shine
 
 - [ ] Docs site built on a Tailwind Plus template (Protocol primarily; also Commit, Syntax) — https://tailwindcss.com/plus/templates#browse

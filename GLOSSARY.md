@@ -14,8 +14,6 @@ Project-level terms used across this repo.
   `docs/assets/application-ui-v4/GLOSSARY.md` for the screen map.
 - **Planetaria** — reference app, sidebar shell, deployments/DevOps
   domain. The other app wise-ui must cover. Same glossary for details.
-- **Garage Sale** — future personal app (moving-sale tool, single-user,
-  pt-BR). Will consume wise-ui later. Not in this repo's scope.
 
 ## Directories
 

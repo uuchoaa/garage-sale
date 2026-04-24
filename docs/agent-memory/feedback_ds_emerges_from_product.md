@@ -15,6 +15,6 @@ Storybook, component catalogs, pattern libraries come **after** the DS exists �
 **How to apply:**
 - When starting a screen, copy the closest full snippet from `application-ui-v4/html/` for the matching app (Cashflow → stacked, Planetaria → sidebar).
 - Adapt content inline. Duplication across the first 2-3 screens is fine and expected.
-- Only extract a component when the third screen would duplicate the same markup. Name it neutrally (`<Button>`, `<StatCard>`) — wise-ui stays domain-agnostic so Garage Sale and other future consumers can use it too.
+- Only extract a component when the third screen would duplicate the same markup. Name it neutrally (`<Button>`, `<StatCard>`) — wise-ui stays domain-agnostic so future consumers can use it too.
 - Resist suggestions to "build the DS first" or "set up Storybook now". Redirect to: build the next screen, then revisit.
 - `application-ui-v4/` stays read-only reference. Don't edit it, don't extract READMEs per subcategory (filenames + grep are enough).
