@@ -1,6 +1,6 @@
 ---
-name: Current phase (2026-04-23 session close) — DS v1 implemented; archetype system formalized; YAML layer removed
-description: 50 components in src/, all 8 reference screens compile; archetype×dialect system canonical in docs/archetypes.md with per-app briefings; YAML spec layer and grammar deleted; examples are English+USD; next choice remains visual pass
+name: Current phase — Phase 1 done; Phase 2 (Cashflow as real consumer) is next
+description: Roadmap formalized in README (4 phases). Phase 1 Foundation closed 2026-04-23; Phase 2 = lift Cashflow from reference screen into a working app with state/forms/persistence; Phase 3 = Extensibility (dark mode lives here as a theming special case); Phase 4 = docs site + polish
 type: project
 originSessionId: 9eefaf1b-b886-4dfa-a37d-88630de31156
 ---
@@ -20,11 +20,11 @@ originSessionId: 9eefaf1b-b886-4dfa-a37d-88630de31156
 - Some `.vue` reference screens (notably Cashflow Detail/Home/Settings) are still the raw reverse-engineered Tailwind Plus output — Tailwind classes at the consumer, not DS primitives. Migration is the #2 item in README's next-session list.
 - No Storybook, no unit specs. Intentional per README "Deferred."
 
-**How to apply** — next session, read the README first (it's the source of truth for repo state and next-session priorities). The memory will stay in sync only if someone remembers to update it; the README update is part of the session-close habit starting today. Ranked choices from the README:
+**Roadmap formalized 2026-04-24.** README `## Roadmap` is authoritative — 4 phases: (1) Foundation · done, (2) Real consumer · next, (3) Extensibility, (4) Make it shine. Read the README first every session; this memory is just a pointer.
 
-1. **Visual pass in browser** — boot `pnpm dev`, walk the 8 screens, fix what's broken / off-brand / motion-missing. Cheapest signal, likely surfaces DS gaps that reorder everything below.
-2. **Migrate Cashflow `.vue` screens to DS primitives** — Detail/Home/Settings still use raw Tailwind at the consumer. Bring them into the closed vocabulary.
-3. **5th archetype** — defers both above; only do it if a concrete product need shows up.
+**Phase 2 shape:** turn Cashflow from reference screen into a working app — state, forms, fake persistence, routing. Planetaria stays as reference (one real consumer is enough signal). Visual pass is opportunistic inside Phase 2, not a separate stage.
+
+**Explicitly out of Phase 2:** dark mode (theming special case → Phase 3), second real consumer, publishing.
 
 **Non-obvious stuff worth remembering:**
 

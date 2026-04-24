@@ -6,6 +6,8 @@ Vue-based design system based on Tailwind Plus Application UI bundle.
 
 DS implemented (50 components). All 8 reference screens (Cashflow + Planetaria × Home/Index/Detail/Settings) typecheck and compile from `wise-ui`.
 
+Light mode only. No dark mode support: no `dark:` variants in components, no dark tokens in `src/styles.css`, no toggle in the harness. Lands in Phase 3 (theming) — see roadmap below.
+
 - `src/` — DS. One dir per component (`ComponentName/ComponentName.vue` + `index.ts`).
 - `src/tokens.ts` — `Tone | Size | Weight | Gap | Duration | Easing | Distance | Breakpoint` + `Responsive<T>`.
 - `src/styles.css` — Tailwind v4 entry + `@theme` tokens + reduced-motion overrides.
@@ -38,30 +40,6 @@ DS implemented (50 components). All 8 reference screens (Cashflow + Planetaria �
 
 Trade-off accepted: smaller ecosystem, `.value` unwrapping in `<script setup>`. Neither blocks the pilot.
 
-## Next session — pick one to lead
-
-The DS renders the 8 screens but has never been seen in a browser. Everything else is a downstream choice from what we find when we look.
-
-1. **Visual pass in the browser.** Boot `pnpm dev`, walk the 8 screens, note what's broken / off-brand / spacing-wrong / motion-missing. The tone palette in `src/styles.css` is oklch placeholders — almost certainly wants a real pass. Expect 1–2 days of DS polish coming out of this.
-2. **Migrate Detail / Home / Settings `.vue` of Cashflow to DS primitives.** Several reference screens are still the raw reverse-engineered Tailwind Plus output (Tailwind classes at the consumer, not DS components). Bring them into the closed vocabulary.
-3. **5th archetype.** More vocabulary before coding further. Cheap, but defers the two above.
-
-Default recommendation: **#1 first** (cheapest signal, likely surfaces DS gaps that change #2's priorities), then **#2**. #3 waits until we have reason to believe the current vocabulary is insufficient.
-
-## Session log
-
-### 2026-04-23 (session close)
-
-Shipped the DS in four slices (scaffold+foundation → shells+nav+actions → data display → detail+settings+forms+motion). 50 components, all 8 screens compile. No visual pass yet. Inline `NavItem`/`NavGroupItem`/`NavTabItem`/`Tone` type decls in examples collapsed to imports from `wise-ui` now that the DS is the source of truth. `Text size="base"` → `size="md"` in two places (foundations has no `base`). Storybook, unit specs, motion verification in DOM — all untouched on purpose. Later same day: archetype system formalized in `docs/archetypes.md` with per-app `briefing.md`s; the YAML spec layer and the deterministic-translator ambition were dropped (see `docs/articles/`).
-
-### 2026-04-23 (session decisions, earlier)
-
-Locked in to unblock the Settings + Detail sweep:
-
-- **Form stack**: VeeValidate + **Zod** (not Yup). `.schema.ts` uses Zod; type inference is nicer and the ecosystem is the one we'd reuse in a React port.
-- **Settings sub-nav**: slot `#sidenav` on `<Page>`, not a dedicated `<SettingsLayout>` component. Same shell, one slot.
-- **`SettingsRow`**: three separate components (`SettingsFieldRow`, `SettingsItemRow`, `SettingsToggleRow`) instead of one polymorphic variant. Determinism for LLM > reuse.
-- **Detail scope**: split into draft-first / schemas-second if the reference is heavy. Don't block the sweep on one tela.
 
 ## Deferred
 
@@ -73,18 +51,38 @@ Intentionally off-table until a concrete signal demands them:
 - **Second-target ports** (React, Rails). Tracked in `docs/targets.md`; Vue-only for now.
 - **Package publishing**. Alias `wise-ui` → `src/index.ts` is enough while the DS has one consumer tree.
 
-# TO DO (not ready for dev yet, needs review)
+## Roadmap
 
-- [ ] Testar dark mode em Cashflow e Planetaria
-- [ ] Definir apps examples para os Page Examples _archived_ do TailwindPlus, da mesma forma que fizemos o Cashflow e Planetaria - ainda sem implementação, só modelagem e notas para nao perder o contexto.
-- [ ] Definir Roadmap
-  - [ ] Foundantion: DS deve atender sem atrito apps como Cashflow e Planetária - estado atual
-    - [ ] Terminar Cashflow
-      - [ ] revisar darkmode
-      - [ ] implementar src/, sem tests what so ever
-      - [ ] add um unico teste 2e2
-    - [ ] Terminar Planetaria
-      - [ ] replicar os ajustes de Cashflow
-  - [ ] Extensability: Atender apps parecidos como os do Page Examples Archived via configuração de temas e afins. Entender oq deve ser do DS e oq deve ser da Aplicação.
-  - [ ] Make it shine: Add camada qualidade, testes e artefatos visuais de apoio como sites, documentacao, etc - usar os próprios templates que compramos: https://tailwindcss.com/plus/templates#browse (acessar via MCP)
-    - [ ] principalmente https://tailwindcss.com/plus/templates/commit e https://tailwindcss.com/plus/templates/protocol e https://tailwindcss.com/plus/templates/syntax
+### Phase 1 — Foundation · done (2026-04-23)
+
+DS v1: 50 components, 8 reference screens (Cashflow + Planetaria × Home/Index/Detail/Settings), archetype system 4×2, token system, motion primitives. Scope locked in `docs/`. Light-only, no tests, no publishing, no theming.
+
+Reference screens stay synced with the DS — they are not "finished", they are maintained.
+
+### Phase 2 — Real consumer · next
+
+Turn **Cashflow** from reference screen into a working app: state, forms, fake persistence, routing. This is where the DS meets the friction LLM-generated screens don't exercise — loading / empty / error states, forms at scale, edge cases — and where Foundation proves it holds up.
+
+- [ ] Lift Cashflow out of `examples/` into a consumer app (structure decided when we start)
+- [ ] Wire state, forms, fake persistence
+- [ ] One e2e test covering the golden path
+- [ ] Opportunistic visual pass on primitives that surface as weak along the way
+
+Planetaria stays as reference. One real consumer is enough signal to validate the DS at app scale.
+
+### Phase 3 — Extensibility
+
+Input: model 1–2 Tailwind Plus _archived_ Page Examples (no implementation — modeling + notes only, same treatment Cashflow and Planetaria got) to probe the limits of the DS. Output: a clear line between what the DS configures and what a consumer app implements.
+
+- [ ] Model archived Page Examples (no impl)
+- [ ] Dark mode — ships as a special case of theming, not as a standalone feature
+- [ ] Token overrides + brand palette
+- [ ] Scope question: DS responsibility vs. app responsibility
+
+Garage Sale fits here as a third real consumer if the motivation holds.
+
+### Phase 4 — Make it shine
+
+- [ ] Docs site built on a Tailwind Plus template (Protocol primarily; also Commit, Syntax) — https://tailwindcss.com/plus/templates#browse
+- [ ] Expand e2e coverage
+- [ ] Visual artifacts: landing, component gallery
